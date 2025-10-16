@@ -30,6 +30,13 @@
             transform: translateY(-8px);
             box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
         }
+        /* Styles for Modal transition */
+        #member-modal {
+            transition: opacity 0.3s ease-in-out;
+        }
+        #modal-content {
+            transition: transform 0.3s ease-in-out;
+        }
     </style>
     <script>
       // Custom Tailwind theme configuration
@@ -156,46 +163,58 @@
                 </div>
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 sm:gap-x-6 gap-y-10">
                     <!-- Bon Chantha -->
-                    <div class="bg-white text-center p-4 sm:p-6 rounded-xl shadow-md card-hover">
-                        <img src="https://i.postimg.cc/1zdLNBxk/compressed-ប៊ន_ចន្ថា.jpg" alt="ប៊ន ចន្ថា" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto mb-4 object-cover ring-4 ring-secondary">
-                        <h4 class="text-base sm:text-lg font-bold text-primary-dark">ប៊ន ចន្ថា</h4>
-                        <p class="text-gray-500 text-xs sm:text-sm mb-3">Developer & Software & Network</p>
-                        <a href="https://t.me/Ch_Tha002" target="_blank" class="text-sm font-semibold text-primary hover:underline">Telegram</a>
+                    <div class="assistant-card bg-white text-center p-4 sm:p-6 rounded-xl shadow-md card-hover cursor-pointer"
+                         data-name="ប៊ន ចន្ថា"
+                         data-img="https://i.postimg.cc/1zdLNBxk/compressed-ប៊ន_ចន្ថា.jpg"
+                         data-expertise="Developer & Software & Network"
+                         data-telegram="https://t.me/Ch_Tha002">
+                        <img src="https://i.postimg.cc/1zdLNBxk/compressed-ប៊ន_ចន្ថា.jpg" alt="ប៊ន ចន្ថា" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto mb-4 object-cover ring-4 ring-secondary pointer-events-none">
+                        <h4 class="text-base sm:text-lg font-bold text-primary-dark pointer-events-none">ប៊ន ចន្ថា</h4>
                     </div>
                      <!-- Laok Lanon -->
-                    <div class="bg-white text-center p-4 sm:p-6 rounded-xl shadow-md card-hover">
-                        <img src="https://i.postimg.cc/3N8CrMSY/compressed-ឡោក_ឆាណុន.jpg" alt="ឡោក ឡាណុន" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto mb-4 object-cover ring-4 ring-secondary">
-                        <h4 class="text-base sm:text-lg font-bold text-primary-dark">ឡោក ឡាណុន</h4>
-                        <p class="text-gray-500 text-xs sm:text-sm mb-3">Network & Software & ទិន្នន័យវត្តមាន</p>
-                        <a href="https://t.me/Maanon_CH" target="_blank" class="text-sm font-semibold text-primary hover:underline">Telegram</a>
+                    <div class="assistant-card bg-white text-center p-4 sm:p-6 rounded-xl shadow-md card-hover cursor-pointer"
+                         data-name="ឡោក ឡាណុន"
+                         data-img="https://i.postimg.cc/3N8CrMSY/compressed-ឡោក_ឆាណុន.jpg"
+                         data-expertise="Network & Software & ទិន្នន័យវត្តមាន"
+                         data-telegram="https://t.me/Maanon_CH">
+                        <img src="https://i.postimg.cc/3N8CrMSY/compressed-ឡោក_ឆាណុន.jpg" alt="ឡោក ឡាណុន" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto mb-4 object-cover ring-4 ring-secondary pointer-events-none">
+                        <h4 class="text-base sm:text-lg font-bold text-primary-dark pointer-events-none">ឡោក ឡាណុន</h4>
                     </div>
                     <!-- Roeun Sreynet -->
-                    <div class="bg-white text-center p-4 sm:p-6 rounded-xl shadow-md card-hover">
-                        <img src="https://i.postimg.cc/SRfTV75N/compressed-រឿន_ស្រីណែត.jpg" alt="រឿន ស្រីណែត" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto mb-4 object-cover ring-4 ring-secondary">
-                        <h4 class="text-base sm:text-lg font-bold text-primary-dark">រឿន ស្រីណែត</h4>
-                        <p class="text-gray-500 text-xs sm:text-sm mb-3">ទិន្នន័យវត្តមាន & កិច្ចការរដ្ឋបាល & Network</p>
-                        <a href="https://t.me/roeurnsreyneth" target="_blank" class="text-sm font-semibold text-primary hover:underline">Telegram</a>
+                    <div class="assistant-card bg-white text-center p-4 sm:p-6 rounded-xl shadow-md card-hover cursor-pointer"
+                         data-name="រឿន ស្រីណែត"
+                         data-img="https://i.postimg.cc/SRfTV75N/compressed-រឿន_ស្រីណែត.jpg"
+                         data-expertise="ទិន្នន័យវត្តមាន & កិច្ចការរដ្ឋបាល & Network"
+                         data-telegram="https://t.me/roeurnsreyneth">
+                        <img src="https://i.postimg.cc/SRfTV75N/compressed-រឿន_ស្រីណែត.jpg" alt="រឿន ស្រីណែត" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto mb-4 object-cover ring-4 ring-secondary pointer-events-none">
+                        <h4 class="text-base sm:text-lg font-bold text-primary-dark pointer-events-none">រឿន ស្រីណែត</h4>
                     </div>
                      <!-- Pey Thavry -->
-                    <div class="bg-white text-center p-4 sm:p-6 rounded-xl shadow-md card-hover">
-                        <img src="https://i.postimg.cc/hGRmPWv6/compressed-ប៉ី_ថាវរី.jpg" alt="ប៉ី ថាវរី" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto mb-4 object-cover ring-4 ring-secondary">
-                        <h4 class="text-base sm:text-lg font-bold text-primary-dark">ប៉ី ថាវរី</h4>
-                        <p class="text-gray-500 text-xs sm:text-sm mb-3">ទិន្នន័យវត្តមាន & Network & Software</p>
-                        <a href="https://t.me/Peythavry" target="_blank" class="text-sm font-semibold text-primary hover:underline">Telegram</a>
+                    <div class="assistant-card bg-white text-center p-4 sm:p-6 rounded-xl shadow-md card-hover cursor-pointer"
+                         data-name="ប៉ី ថាវរី"
+                         data-img="https://i.postimg.cc/hGRmPWv6/compressed-ប៉ី_ថាវរី.jpg"
+                         data-expertise="ទិន្នន័យវត្តមាន & Network & Software"
+                         data-telegram="https://t.me/Peythavry">
+                        <img src="https://i.postimg.cc/hGRmPWv6/compressed-ប៉ី_ថាវរី.jpg" alt="ប៉ី ថាវរី" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto mb-4 object-cover ring-4 ring-secondary pointer-events-none">
+                        <h4 class="text-base sm:text-lg font-bold text-primary-dark pointer-events-none">ប៉ី ថាវរី</h4>
                     </div>
                      <!-- Soy Keomsodany -->
-                    <div class="bg-white text-center p-4 sm:p-6 rounded-xl shadow-md card-hover">
-                        <img src="https://i.postimg.cc/VkwxKDQg/image.png" alt="សយ គឹមសុដានី" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto mb-4 object-cover ring-4 ring-secondary">
-                        <h4 class="text-base sm:text-lg font-bold text-primary-dark">សយ គឹមសុដានី</h4>
-                        <p class="text-gray-500 text-xs sm:text-sm mb-3">ទិន្នន័យវត្តមាន & Network & Software</p>
-                        <a href="https://t.me/Soykeomsodany0717978187" target="_blank" class="text-sm font-semibold text-primary hover:underline">Telegram</a>
+                    <div class="assistant-card bg-white text-center p-4 sm:p-6 rounded-xl shadow-md card-hover cursor-pointer"
+                         data-name="សយ គឹមសុដានី"
+                         data-img="https://i.postimg.cc/VkwxKDQg/image.png"
+                         data-expertise="ទិន្នន័យវត្តមាន & Network & Software"
+                         data-telegram="https://t.me/Soykeomsodany0717978187">
+                        <img src="https://i.postimg.cc/VkwxKDQg/image.png" alt="សយ គឹមសុដានី" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto mb-4 object-cover ring-4 ring-secondary pointer-events-none">
+                        <h4 class="text-base sm:text-lg font-bold text-primary-dark pointer-events-none">សយ គឹមសុដានី</h4>
                     </div>
                     <!-- Hen Chanthai -->
-                    <div class="bg-white text-center p-4 sm:p-6 rounded-xl shadow-md card-hover">
-                        <img src="https://i.postimg.cc/hjLMkbB5/compressed-ហឹន_ចាន់ថៃ.jpg" alt="ហឹន ចាន់ថៃ" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto mb-4 object-cover ring-4 ring-secondary">
-                        <h4 class="text-base sm:text-lg font-bold text-primary-dark">ហឹន ចាន់ថៃ</h4>
-                        <p class="text-gray-500 text-xs sm:text-sm mb-3">ទិន្នន័យវត្តមាន & Network</p>
-                        <a href="https://t.me/CHANTHAI6435" target="_blank" class="text-sm font-semibold text-primary hover:underline">Telegram</a>
+                    <div class="assistant-card bg-white text-center p-4 sm:p-6 rounded-xl shadow-md card-hover cursor-pointer"
+                         data-name="ហឹន ចាន់ថៃ"
+                         data-img="https://i.postimg.cc/hjLMkbB5/compressed-ហឹន_ចាន់ថៃ.jpg"
+                         data-expertise="ទិន្នន័យវត្តមាន & Network"
+                         data-telegram="https://t.me/CHANTHAI6435">
+                        <img src="https://i.postimg.cc/hjLMkbB5/compressed-ហឹន_ចាន់ថៃ.jpg" alt="ហឹន ចាន់ថៃ" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto mb-4 object-cover ring-4 ring-secondary pointer-events-none">
+                        <h4 class="text-base sm:text-lg font-bold text-primary-dark pointer-events-none">ហឹន ចាន់ថៃ</h4>
                     </div>
                 </div>
 
@@ -245,7 +264,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </section>
 
@@ -281,6 +299,26 @@
         </section>
 
     </main>
+    
+    <!-- Member Detail Modal -->
+    <div id="member-modal" class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 z-50 hidden opacity-0">
+        <div id="modal-content" class="bg-white rounded-2xl shadow-xl w-full max-w-md mx-auto text-center p-6 sm:p-8 relative transform scale-95">
+            <!-- Close Button -->
+            <button id="modal-close-btn" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 transition-colors">
+                <i class="fas fa-times text-2xl"></i>
+            </button>
+    
+            <img id="modal-img" src="" alt="Team Member" class="w-32 h-32 sm:w-40 sm:h-40 rounded-full mx-auto mb-5 object-cover ring-4 ring-primary-light border-4 border-white shadow-lg">
+            <h3 id="modal-name" class="text-2xl sm:text-3xl font-bold text-primary-dark mb-2"></h3>
+            <p id="modal-expertise" class="text-gray-600 mb-6 text-sm sm:text-base"></p>
+    
+            <a id="modal-telegram-link" href="#" target="_blank" class="inline-flex items-center justify-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-full transition duration-300 text-lg shadow-lg transform hover:scale-105 w-full sm:w-auto">
+                <i class="fa-brands fa-telegram text-2xl mr-3"></i>
+                <span>ទាក់ទងតាម Telegram</span>
+            </a>
+        </div>
+    </div>
+
 
     <!-- Footer -->
     <footer class="bg-primary-dark text-white py-6">
@@ -318,7 +356,57 @@
             membersGrid.classList.toggle('hidden');
             toggleIcon.classList.toggle('rotate-180');
         });
+        
+        // JavaScript for Member Detail Modal
+        const modal = document.getElementById('member-modal');
+        const modalContent = document.getElementById('modal-content');
+        const modalCloseBtn = document.getElementById('modal-close-btn');
+        const modalImg = document.getElementById('modal-img');
+        const modalName = document.getElementById('modal-name');
+        const modalExpertise = document.getElementById('modal-expertise');
+        const modalTelegramLink = document.getElementById('modal-telegram-link');
+
+        const assistantCards = document.querySelectorAll('.assistant-card');
+
+        assistantCards.forEach(card => {
+            card.addEventListener('click', () => {
+                // Populate modal with data from the card
+                modalImg.src = card.dataset.img;
+                modalName.textContent = card.dataset.name;
+                modalExpertise.innerHTML = `<span class="font-semibold text-gray-800">អ្នកជំនាញ៖</span> ${card.dataset.expertise}`;
+                modalTelegramLink.href = card.dataset.telegram;
+
+                // Show the modal with animations
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0');
+                    modalContent.classList.add('scale-100');
+                    modalContent.classList.remove('scale-95');
+                }, 10); // A small delay to allow CSS transitions to trigger
+            });
+        });
+
+        function closeModal() {
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-95');
+            modal.classList.add('opacity-0');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300); // Match the duration of the transition
+        }
+
+        modalCloseBtn.addEventListener('click', closeModal);
+
+        // Close modal when clicking on the background overlay
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
     </script>
 </body>
 </html>
+
 
