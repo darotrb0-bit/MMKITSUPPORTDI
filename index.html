@@ -3,684 +3,493 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ឧស្សាហកម្មឌីជីថល</title>
-    <!-- Tailwind CSS -->
+    <title>បញ្ជីឈ្មោះបុគ្គលិក (Staff List)</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts (Kantumruy Pro for Khmer & Inter for English) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Kantumruy+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
     <style>
-        /* Custom styles */
         body {
-            font-family: 'Kantumruy Pro', 'Inter', sans-serif;
-            background-color: #f8fafc;
+            font-family: 'Kantumruy Pro', sans-serif;
+            background-color: #f8fafc; /* A lighter, cleaner background */
+            overscroll-behavior-x: none; /* Prevents browser's back/forward swipe gesture */
         }
-        /* Style for smooth scrolling */
-        html {
-            scroll-behavior: smooth;
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
         }
-        /* Styles for Modal transition */
-        #member-modal {
-            transition: opacity 0.3s ease-in-out;
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
         }
-        #modal-content {
-            transition: transform 0.3s ease-in-out;
+        ::-webkit-scrollbar-thumb {
+            background: #a8a8a8;
+            border-radius: 10px;
         }
-
-        /* Enhanced Card Hover Effect */
-        .card-hover {
-            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-            border: 2px solid transparent;
+        ::-webkit-scrollbar-thumb:hover {
+            background: #888;
         }
-        .card-hover:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 25px 30px -12px rgb(0 0 0 / 0.15);
-            border-color: #005B96; /* primary */
+        .card-enter {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
-        .assistant-card:hover img {
-            transform: scale(1.05);
-            transition: transform 0.3s ease;
+        .card-enter-active {
+            opacity: 1;
+            transform: translateY(0);
         }
-        .assistant-card img {
-            transition: transform 0.3s ease;
+        .pagination-btn {
+            @apply flex items-center justify-center px-3 h-8 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-white;
         }
-
-        /* Button Shine Effect */
-        .btn-shine {
-            position: relative;
-            overflow: hidden;
+        .pagination-btn.active {
+             @apply z-10 text-blue-600 border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-slate-500 dark:bg-slate-700 dark:text-white;
         }
-        .btn-shine::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-            transition: left 0.7s ease;
-        }
-        .btn-shine:hover::before {
-            left: 100%;
+        .pagination-btn.disabled {
+            @apply opacity-50 cursor-not-allowed;
         }
 
-        /* Animations for Hero Section */
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in-down {
-            animation: fadeInDown 0.8s ease-out 0.2s backwards;
-        }
-        .animate-fade-in-up {
-            animation: fadeInUp 0.8s ease-out 0.4s backwards;
-        }
-        .animate-fade-in-up-delay {
-             animation: fadeInUp 0.8s ease-out 0.6s backwards;
-        }
-
-        /* Subtle background animation */
-        @keyframes gradient-animation {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        .animated-gradient-bg {
-            background: linear-gradient(-45deg, #f0f4f8, #e6eef5, #d9e2ec, #f0f4f8);
-            background-size: 400% 400%;
-            animation: gradient-animation 20s ease infinite;
-        }
-
-        /* Animated Gradient Text for Titles */
-        .animated-gradient-text {
-            background: linear-gradient(90deg, #011F4B, #005B96, #6497B1, #011F4B);
-            background-size: 250% auto;
-            color: #000;
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: text-shine 8s linear infinite;
-        }
-        @keyframes text-shine {
-            to {
-                background-position: -250% center;
-            }
-        }
-        
-        /* Animated HR line effect */
-        .animated-hr {
-            border: none;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #005B96, transparent);
-            background-size: 200% 100%;
-            animation: hr-scan 4s linear infinite;
-            margin: 3rem auto;
-            width: 80%;
-            max-width: 400px;
-        }
-        @keyframes hr-scan {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-        
-        header {
-            box-shadow: 0 4px 14px 0 rgba(1, 31, 75, 0.1);
-        }
-        
-        /* Digital Connector Line Effect */
-        #connector-path {
-            stroke-dasharray: 8 4;
-            animation: run-line 0.5s linear infinite;
-        }
-        @keyframes run-line {
-            to {
-                stroke-dashoffset: -12;
-            }
-        }
     </style>
-    <script>
-      // Custom Tailwind theme configuration
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              primary: {
-                DEFAULT: '#005B96',
-                light: '#6497B1',
-                dark: '#011F4B',
-              },
-              secondary: '#B3CDE0',
-              lightbg: '#F0F4F8',
-            }
-          }
-        }
-      }
-    </script>
 </head>
-<body class="bg-slate-50 text-gray-800">
+<body class="dark:bg-slate-900 text-slate-800 dark:text-slate-200 min-h-screen">
 
-    <!-- Header & Navigation -->
-    <header class="bg-primary-dark text-white sticky top-0 z-50 backdrop-blur-sm bg-opacity-90 border-b border-primary/20">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <div class="text-lg md:text-2xl font-bold tracking-wider">
-                <a href="#" id="logo-link"><i class="fas fa-shield-halved mr-2"></i>ឧស្សាហកម្មឌីជីថល</a>
+    <!-- Initial Loading Overlay -->
+    <div id="initial-loading-overlay" class="fixed inset-0 bg-slate-100 dark:bg-slate-900 flex flex-col justify-center items-center z-50 transition-opacity duration-700">
+        <img src="https://i.postimg.cc/rwznn9Zh/photo-2025-05-01-09-50-00.jpg" alt="Company Logo" class="w-32 h-32 rounded-full mb-6 animate-pulse shadow-lg">
+        <div class="flex items-center text-slate-700 dark:text-slate-200 text-lg">
+            <svg class="animate-spin -ml-1 mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <span>ប្រព័ន្ធកំពុងដំណើការសូមរង់ចាំបន្តិច....!</span>
+        </div>
+    </div>
+
+
+    <div class="container mx-auto p-4 md:p-6">
+        <!-- Header -->
+        <header class="text-center mb-6 md:mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white flex items-center justify-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-500"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                <span>បញ្ជីឈ្មោះបុគ្គលិក</span>
+            </h1>
+            <h2 class="text-xl md:text-2xl font-medium text-slate-700 dark:text-slate-300 mt-2">ឧស្សាហកម្មឌីជីថល</h2>
+        </header>
+
+        <!-- Filter and Search Controls -->
+        <div class="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm p-4 rounded-xl shadow-lg mb-6 sticky top-4 z-10 border dark:border-slate-700">
+            <div class="space-y-4">
+                <!-- Search and Mobile Filter Button Wrapper -->
+                <div class="flex gap-4 items-end">
+                    <!-- Search Input -->
+                    <div class="flex-grow">
+                        <label for="searchInput" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">ស្វែងរក</label>
+                        <input type="text" id="searchInput" placeholder="ឈ្មោះ, អត្តលេខ, ក្រុម, ថ្នាក់..." class="w-full px-3 py-2 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-700 dark:border-slate-600 dark:text-white">
+                    </div>
+                    <!-- Mobile Filter Toggle Button -->
+                    <button id="toggleFiltersBtn" class="md:hidden p-2 bg-slate-200 dark:bg-slate-700 rounded-lg flex-shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+                    </button>
+                </div>
+
+                <!-- Collapsible Filter Area -->
+                <div id="filtersWrapper" class="hidden md:grid md:grid-cols-1 lg:grid-cols-3 gap-4 pt-4 md:pt-0">
+                    <!-- Group Filter -->
+                    <div>
+                        <label for="groupFilter" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">ក្រុម</label>
+                        <select id="groupFilter" class="w-full px-3 py-2 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-700 dark:border-slate-600 dark:text-white">
+                            <option value="">គ្រប់ក្រុម</option>
+                        </select>
+                    </div>
+                    <!-- Class Filter -->
+                    <div>
+                        <label for="classFilter" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">ថ្នាក់</label>
+                        <select id="classFilter" class="w-full px-3 py-2 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-700 dark:border-slate-600 dark:text-white">
+                            <option value="">គ្រប់ថ្នាក់</option>
+                        </select>
+                    </div>
+                    <!-- Section Filter -->
+                    <div>
+                        <label for="sectionFilter" class="block text-sm font-medium text-slate-700 dark:text-slate-200 mb-1">ផ្នែកការងារ</label>
+                        <select id="sectionFilter" class="w-full px-3 py-2 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-700 dark:border-slate-600 dark:text-white">
+                            <option value="">គ្រប់ផ្នែក</option>
+                        </select>
+                    </div>
+                </div>
             </div>
-            <!-- Mobile Menu Button -->
-            <button id="mobile-menu-button" class="md:hidden p-2 rounded-md hover:bg-primary focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-                <i class="fas fa-bars h-6 w-6"></i>
-            </button>
-            <!-- Desktop Navigation -->
-            <nav class="hidden md:flex space-x-8 items-center text-sm font-medium">
-                <a href="#home" class="main-nav-link hover:text-secondary transition duration-300">ទំព័រដើម</a>
-                <a href="#responsibilities" id="nav-responsibilities" class="hover:text-secondary transition duration-300">ទំនួលខុសត្រូវ</a>
-                <a href="#services" class="main-nav-link hover:text-secondary transition duration-300">សេវាកម្ម</a>
-                <a href="#team" class="main-nav-link hover:text-secondary transition duration-300">សមាជិកក្រុម</a>
-                <a href="#contact" class="bg-primary hover:bg-primary-light text-white font-bold py-2 px-5 rounded-full transition duration-300 shadow-md main-nav-link">ទំនាក់ទំនង</a>
-            </nav>
+
+             <div class="flex flex-wrap gap-4 justify-between items-center mt-4">
+                <div id="staffCount" class="text-sm text-slate-600 dark:text-slate-400"></div>
+                <div class="flex items-center gap-3">
+                    <button id="refreshButton" title="ផ្ទុកទិន្នន័យឡើងវិញ" class="group p-2 text-sm bg-slate-200 text-slate-700 rounded-lg hover:bg-slate-300 transition dark:bg-slate-600 dark:text-slate-200 dark:hover:bg-slate-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover:rotate-180"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+                    </button>
+                    <button id="resetButton" title="សម្អាតតម្រង" class="group p-2 text-sm bg-slate-200 text-slate-700 rounded-lg hover:bg-slate-300 transition dark:bg-slate-600 dark:text-slate-200 dark:hover:bg-slate-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover:rotate-[-15deg]"><path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21"/><path d="M22 21H7"/><path d="m5 12 5 5"/></svg>
+                    </button>
+                </div>
+            </div>
         </div>
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden px-4 pt-2 pb-4">
-            <a href="#home" class="main-nav-link block py-2 text-white hover:bg-primary rounded-md px-3">ទំព័រដើម</a>
-            <a href="#responsibilities" id="mobile-nav-responsibilities" class="block py-2 text-white hover:bg-primary rounded-md px-3">ទំនួលខុសត្រូវ</a>
-            <a href="#services" class="main-nav-link block py-2 text-white hover:bg-primary rounded-md px-3">សេវាកម្ម</a>
-            <a href="#team" class="main-nav-link block py-2 text-white hover:bg-primary rounded-md px-3">សមាជិកក្រុម</a>
-            <a href="#contact" class="main-nav-link block py-2 text-white hover:bg-primary rounded-md px-3">ទំនាក់ទំនង</a>
+        
+        <!-- Staff List Container -->
+        <div id="staffList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
+            <!-- Staff cards will be inserted here by JavaScript -->
         </div>
-    </header>
 
-    <!-- Main Page Content -->
-    <div id="main-page">
-        <main>
-            <!-- Hero Section -->
-            <section id="home" class="text-center py-16 md:py-28 animated-gradient-bg">
-                <div class="max-w-3xl mx-auto px-4">
-                    <h1 class="text-3xl sm:text-4xl md:text-6xl font-bold text-primary-dark mb-4 leading-tight animate-fade-in-down">សូមស្វាគមន៍មកកាន់ក្រុមការងារ IT SUPPORT</h1>
-                    <p class="text-base md:text-xl text-gray-600 mb-2 animate-fade-in-up">គ្រប់គ្រងដោយលោកគ្រូ <span class="font-bold text-primary">ពៅ ដារ៉ូ</span></p>
-                    <p class="text-gray-500 max-w-xl mx-auto mb-8 animate-fade-in-up">ដោះស្រាយបញ្ហាបច្ចេកវិទ្យា គ្រប់គ្រងកុំព្យូទ័រ អ៊ីនធឺណិត ក្នុងអគារ​DI សាលាDUC និងក្នុងបុរីចាស្មីន។</p>
-                    <a href="#contact" class="bg-gradient-to-r from-primary to-primary-light hover:from-primary-dark hover:to-primary text-white font-bold py-3 px-8 rounded-full transition duration-300 text-lg shadow-lg transform hover:scale-105 animate-fade-in-up-delay btn-shine">ស្នើសុំជំនួយ</a>
-                </div>
-            </section>
+        <!-- Pagination Controls -->
+        <div id="paginationControls" class="flex justify-center items-center space-x-1 sm:space-x-2 mt-8">
+            <!-- Pagination buttons will be injected here -->
+        </div>
 
-            <!-- Services Section -->
-            <section id="services" class="py-16 sm:py-20">
-                <div class="container mx-auto px-4">
-                    <h2 class="text-2xl sm:text-3xl font-bold text-center mb-12 animated-gradient-text">សេវាកម្មរបស់យើង</h2>
-                    <div class="space-y-6 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-8 md:space-y-0">
-                        <!-- Service Card 1 -->
-                        <div class="bg-white p-6 md:p-8 rounded-xl shadow-md card-hover text-center">
-                            <div class="flex-shrink-0 bg-gradient-to-br from-secondary to-primary-light text-primary-dark rounded-full w-20 h-20 flex items-center justify-center mb-5 mx-auto shadow-inner">
-                                <i class="fa-solid fa-computer text-4xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-lg sm:text-xl font-semibold mb-3 text-primary-dark">ដំឡើង និងជួសជុលកុំព្យូទ័រ</h3>
-                                <p class="text-gray-600 text-sm sm:text-base">សេវាកម្មដំឡើង កំណត់ និងជួសជុលបញ្ហា Hardware និង Software គ្រប់ប្រភេទ។</p>
-                            </div>
-                        </div>
-                        <!-- Service Card 2 -->
-                        <div class="bg-white p-6 md:p-8 rounded-xl shadow-md card-hover text-center">
-                             <div class="flex-shrink-0 bg-gradient-to-br from-secondary to-primary-light text-primary-dark rounded-full w-20 h-20 flex items-center justify-center mb-5 mx-auto shadow-inner">
-                                <i class="fa-solid fa-wifi text-4xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-lg sm:text-xl font-semibold mb-3 text-primary-dark">ដោះស្រាយបញ្ហាបណ្តាញ</h3>
-                                <p class="text-gray-600 text-sm sm:text-base">ដំឡើងប្រព័ន្ធបណ្តាញ Internet, Wi-Fi និងដោះស្រាយបញ្ហាបណ្តាញយឺត ឬដាច់។</p>
-                            </div>
-                        </div>
-                        <!-- Service Card 3 -->
-                        <div class="bg-white p-6 md:p-8 rounded-xl shadow-md card-hover text-center">
-                            <div class="flex-shrink-0 bg-gradient-to-br from-secondary to-primary-light text-primary-dark rounded-full w-20 h-20 flex items-center justify-center mb-5 mx-auto shadow-inner">
-                                <i class="fa-solid fa-download text-4xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-lg sm:text-xl font-semibold mb-3 text-primary-dark">ដំឡើងកម្មវិធី (Software)</h3>
-                                <p class="text-gray-600 text-sm sm:text-base">ដំឡើងកម្មវិធីផ្សេងៗតាមតម្រូវការ រួមទាំងប្រព័ន្ធប្រតិបត្តិការ Windows។</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Team Section -->
-            <section id="team" class="py-16 sm:py-20 bg-lightbg">
-                 <div class="container mx-auto px-4">
-                    <div class="text-center mb-12">
-                        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold animated-gradient-text">ជួបជាមួយក្រុមការងារយើង</h2>
-                        <p class="text-gray-600 mt-2">ក្រុម​អ្នក​ជំនាញ​ដែល​ត្រៀម​ខ្លួន​ជា​និច្ច​ដើម្បី​ជួយ​អ្នក</p>
-                    </div>
-
-                    <div id="team-visual-container" class="relative">
-                        <!-- SVG for connector line -->
-                        <svg id="connector-svg" class="absolute top-0 left-0 w-full h-full pointer-events-none opacity-0 transition-opacity duration-300 z-10">
-                            <defs>
-                                <linearGradient id="line-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" style="stop-color:#6497B1;stop-opacity:1" />
-                                    <stop offset="100%" style="stop-color:#005B96;stop-opacity:1" />
-                                </linearGradient>
-                            </defs>
-                            <path id="connector-path" d="" stroke="url(#line-gradient)" stroke-width="3" fill="none" stroke-linecap="round"/>
-                        </svg>
-
-                        <!-- Manager -->
-                        <div id="manager-card" class="max-w-xs mx-auto text-center relative z-20">
-                            <div class="relative inline-block">
-                                <img class="h-32 w-32 sm:h-40 sm:w-40 rounded-full object-cover mx-auto shadow-lg border-4 border-primary" src="https://i.postimg.cc/hPcbKwwn/photo-2025-09-27-15-47-14.jpg" alt="Pov Daro">
-                                 <span class="absolute bottom-2 -right-2 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">អ្នកគ្រប់គ្រង</span>
-                            </div>
-                            <h3 class="text-xl sm:text-2xl font-bold text-black mt-4">ពៅ ដារ៉ូ</h3>
-                            <a href="https://t.me/MMKDaro" target="_blank" class="inline-flex items-center mt-2 text-primary hover:text-primary-dark font-medium transition duration-300">
-                                 <i class="fa-brands fa-telegram text-xl mr-2"></i>
-                                 <span>ទាក់ទងឥឡូវនេះ</span>
-                            </a>
-                        </div>
-
-                        <!-- This HR is now just a visual separator, the line logic is handled by SVG -->
-                        <div id="hr-placeholder" class="animated-hr"></div>
-
-                        <!-- Team Members Grid Container -->
-                        <div class="relative z-20">
-                            <!-- Assistants -->
-                            <div id="assistants-title" class="text-center mb-10 mt-10">
-                                <h3 class="text-xl sm:text-2xl font-bold text-primary-dark">ជំនួយការផ្ទាល់</h3>
-                            </div>
-                            <div id="assistants-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 sm:gap-x-6 gap-y-10">
-                                <!-- Bon Chantha -->
-                                <div class="assistant-card bg-white text-center p-4 sm:p-6 rounded-xl shadow-md card-hover cursor-pointer"
-                                     data-name="ប៊ន ចន្ថា"
-                                     data-img="https://i.postimg.cc/1zdLNBxk/compressed-ប៊ន_ចន្ថា.jpg"
-                                     data-expertise="Developer & Software & Network"
-                                     data-telegram="https://t.me/Ch_Tha002">
-                                    <img src="https://i.postimg.cc/1zdLNBxk/compressed-ប៊ន_ចន្ថា.jpg" alt="ប៊ន ចន្ថា" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto mb-4 object-cover ring-4 ring-secondary pointer-events-none">
-                                    <h4 class="text-base sm:text-lg font-bold text-primary-dark pointer-events-none">ប៊ន ចន្ថា</h4>
-                                </div>
-                                 <!-- Laok Lanon -->
-                                <div class="assistant-card bg-white text-center p-4 sm:p-6 rounded-xl shadow-md card-hover cursor-pointer"
-                                     data-name="ឡោក ឡាណុន"
-                                     data-img="https://i.postimg.cc/3N8CrMSY/compressed-ឡោក_ឆាណុន.jpg"
-                                     data-expertise="Network & Software & ទិន្នន័យវត្តមាន"
-                                     data-telegram="https://t.me/Maanon_CH">
-                                    <img src="https://i.postimg.cc/3N8CrMSY/compressed-ឡោក_ឆាណុន.jpg" alt="ឡោក ឡាណុន" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto mb-4 object-cover ring-4 ring-secondary pointer-events-none">
-                                    <h4 class="text-base sm:text-lg font-bold text-primary-dark pointer-events-none">ឡោក ឡាណុន</h4>
-                                </div>
-                                <!-- Roeun Sreynet -->
-                                <div class="assistant-card bg-white text-center p-4 sm:p-6 rounded-xl shadow-md card-hover cursor-pointer"
-                                     data-name="រឿន ស្រីណែត"
-                                     data-img="https://i.postimg.cc/SRfTV75N/compressed-រឿន_ស្រីណែត.jpg"
-                                     data-expertise="ទិន្នន័យវត្តមាន & កិច្ចការរដ្ឋបាល & Network"
-                                     data-telegram="https://t.me/roeurnsreyneth">
-                                    <img src="https://i.postimg.cc/SRfTV75N/compressed-រឿន_ស្រីណែត.jpg" alt="រឿន ស្រីណែត" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto mb-4 object-cover ring-4 ring-secondary pointer-events-none">
-                                    <h4 class="text-base sm:text-lg font-bold text-primary-dark pointer-events-none">រឿន ស្រីណែត</h4>
-                                </div>
-                                 <!-- Pey Thavry -->
-                                <div class="assistant-card bg-white text-center p-4 sm:p-6 rounded-xl shadow-md card-hover cursor-pointer"
-                                     data-name="ប៉ី ថាវរី"
-                                     data-img="https://i.postimg.cc/hGRmPWv6/compressed-ប៉ី_ថាវរី.jpg"
-                                     data-expertise="ទិន្នន័យវត្តមាន & Network & Software"
-                                     data-telegram="https://t.me/Peythavry">
-                                    <img src="https://i.postimg.cc/hGRmPWv6/compressed-ប៉ី_ថាវរី.jpg" alt="ប៉ី ថាវរី" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto mb-4 object-cover ring-4 ring-secondary pointer-events-none">
-                                    <h4 class="text-base sm:text-lg font-bold text-primary-dark pointer-events-none">ប៉ី ថាវរី</h4>
-                                </div>
-                                 <!-- Soy Keomsodany -->
-                                <div class="assistant-card bg-white text-center p-4 sm:p-6 rounded-xl shadow-md card-hover cursor-pointer"
-                                     data-name="សយ គឹមសុដានី"
-                                     data-img="https://i.postimg.cc/VkwxKDQg/image.png"
-                                     data-expertise="ទិន្នន័យវត្តមាន & Network & Software"
-                                     data-telegram="https://t.me/Soykeomsodany0717978187">
-                                    <img src="https://i.postimg.cc/VkwxKDQg/image.png" alt="សយ គឹមសុដានី" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto mb-4 object-cover ring-4 ring-secondary pointer-events-none">
-                                    <h4 class="text-base sm:text-lg font-bold text-primary-dark pointer-events-none">សយ គឹមសុដានី</h4>
-                                </div>
-                                <!-- Hen Chanthai -->
-                                <div class="assistant-card bg-white text-center p-4 sm:p-6 rounded-xl shadow-md card-hover cursor-pointer"
-                                     data-name="ហឹន ចាន់ថៃ"
-                                     data-img="https://i.postimg.cc/hjLMkbB5/compressed-ហឹន_ចាន់ថៃ.jpg"
-                                     data-expertise="ទិន្នន័យវត្តមាន & Network"
-                                     data-telegram="https://t.me/CHANTHAI6435">
-                                    <img src="https://i.postimg.cc/hjLMkbB5/compressed-ហឹន_ចាន់ថៃ.jpg" alt="ហឹន ចាន់ថៃ" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto mb-4 object-cover ring-4 ring-secondary pointer-events-none">
-                                    <h4 class="text-base sm:text-lg font-bold text-primary-dark pointer-events-none">ហឹន ចាន់ថៃ</h4>
-                                </div>
-                            </div>
-
-                            <!-- General Members Section -->
-                            <div class="mt-16">
-                                <!-- Clickable Title -->
-                                <div id="toggle-general-members" class="text-center cursor-pointer group">
-                                    <hr class="animated-hr mb-8">
-                                    <h3 class="text-xl sm:text-2xl font-bold text-primary-dark inline-flex items-center group-hover:text-primary transition-colors">
-                                        ក្រុមការងារ IT SUPPORT
-                                        <i id="toggle-icon" class="fas fa-chevron-down ml-3 transition-transform duration-300"></i>
-                                    </h3>
-                                </div>
-
-                                <!-- Collapsible Grid for General Members -->
-                                <div id="general-members-grid" class="hidden max-w-xl mx-auto space-y-4 mt-8">
-                                    <!-- Kong Seat -->
-                                     <div class="bg-white p-4 rounded-xl shadow-md flex items-center gap-4 card-hover">
-                                        <img src="https://i.postimg.cc/HnMHLKVv/compressed.jpg" alt="គង់ ស៊ាត" class="w-16 h-16 rounded-full object-cover ring-4 ring-secondary">
-                                        <div>
-                                            <h4 class="text-base sm:text-lg font-bold text-primary-dark">គង់ ស៊ាត</h4>
-                                            <p class="text-gray-500 text-xs sm:text-sm">Network & Software</p>
-                                        </div>
-                                    </div>
-                                    <!-- Ly Mesa -->
-                                     <div class="bg-white p-4 rounded-xl shadow-md flex items-center gap-4 card-hover">
-                                        <img src="https://i.postimg.cc/Y94VPy2f/compressed-លី​_មេសា.jpg" alt="លី មេសា" class="w-16 h-16 rounded-full object-cover ring-4 ring-secondary">
-                                         <div>
-                                            <h4 class="text-base sm:text-lg font-bold text-primary-dark">លី មេសា</h4>
-                                            <p class="text-gray-500 text-xs sm:text-sm">Network & Software</p>
-                                        </div>
-                                    </div>
-                                    <!-- Lon Davith -->
-                                     <div class="bg-white p-4 rounded-xl shadow-md flex items-center gap-4 card-hover">
-                                        <img src="https://i.postimg.cc/nc1YWLLr/compressed-លន_ដាវីត.jpg" alt="លន ដាវីត" class="w-16 h-16 rounded-full object-cover ring-4 ring-secondary">
-                                         <div>
-                                            <h4 class="text-base sm:text-lg font-bold text-primary-dark">លន ដាវីត</h4>
-                                            <p class="text-gray-500 text-xs sm:text-sm">Developer & Software</p>
-                                        </div>
-                                    </div>
-                                    <!-- Ly Nuphuong -->
-                                     <div class="bg-white p-4 rounded-xl shadow-md flex items-center gap-4 card-hover">
-                                        <img src="https://i.postimg.cc/QxggjkHQ/compressed-លី_នូភឿង.jpg" alt="លី នូភឿង" class="w-16 h-16 rounded-full object-cover ring-4 ring-secondary">
-                                         <div>
-                                            <h4 class="text-base sm:text-lg font-bold text-primary-dark">លី នូភឿង</h4>
-                                            <p class="text-gray-500 text-xs sm:text-sm">Network</p>
-                                        </div>
-                                    </div>
-                                    <!-- Kim Sokdin -->
-                                    <div class="bg-white p-4 rounded-xl shadow-md flex items-center gap-4 card-hover">
-                                        <img src="https://i.postimg.cc/y8gh8yPg/compressed.jpg" alt="គឹម សុខឌីន" class="w-16 h-16 rounded-full object-cover ring-4 ring-secondary">
-                                        <div>
-                                            <h4 class="text-base sm:text-lg font-bold text-primary-dark">គឹម សុខឌីន</h4>
-                                            <p class="text-gray-500 text-xs sm:text-sm">Network & Software & ជំនួយកិច្ចការរដ្ឋបាល</p>
-                                        </div>
-                                    </div>
-                                    <!-- Kim Sreypov -->
-                                    <div class="bg-white p-4 rounded-xl shadow-md flex items-center gap-4 card-hover">
-                                        <img src="https://i.postimg.cc/wTB76xV7/compressed.jpg" alt="គីម ស្រីពៅ" class="w-16 h-16 rounded-full object-cover ring-4 ring-secondary">
-                                        <div>
-                                            <h4 class="text-base sm:text-lg font-bold text-primary-dark">គីម ស្រីពៅ</h4>
-                                            <p class="text-gray-500 text-xs sm:text-sm">Network & ជំនួយកិច្ចការរដ្ឋបាល</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Contact Section -->
-            <section id="contact" class="py-16 sm:py-20">
-                <div class="container mx-auto px-4">
-                    <h2 class="text-2xl sm:text-3xl font-bold text-center mb-10 animated-gradient-text">ទំនាក់ទំនងមកពួកយើង</h2>
-                    <div class="max-w-xl mx-auto bg-white p-6 sm:p-8 rounded-xl shadow-lg">
-                        <div class="text-center text-gray-600">
-                            <p class="mb-6 text-lg">សម្រាប់​ព័ត៌មាន​បន្ថែម ឬ​ស្នើសុំ​ជំនួយ សូម​ទំនាក់ទំនង​តាម​រយៈ៖</p>
-                            <div class="space-y-4">
-                                <p class="text-lg"><strong><i class="fas fa-phone mr-2 text-primary"></i></strong> <a href="tel:090544452" class="text-primary hover:underline">090 5444 52</a></p>
-                                <p class="text-lg"><strong><i class="fas fa-envelope mr-2 text-primary"></i></strong> <a href="mailto:perdigitalindustry@gmail.com" class="text-primary hover:underline">perdigitalindustry@gmail.com</a></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
-    </div>
-    
-    <!-- Responsibilities Page Content -->
-    <div id="responsibilities-page" class="hidden">
-        <main class="container mx-auto px-4 py-8">
-            <section id="responsibilities-content" class="py-12 sm:py-16">
-                <div class="text-center mb-12">
-                    <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 animate-fade-in-down animated-gradient-text">អំពីទំនួលខុសត្រូវការងារ</h1>
-                    <p class="text-gray-600 max-w-3xl mx-auto md:text-lg animate-fade-in-up">គ្រប់គ្រងកុំព្យូទ័រ អ៊ីនធឺណិត ក្នុងអគារ​DI សាលាDUC និងក្នុងបុរីចាស្មីន</p>
-                </div>
-
-                <div class="grid md:grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto animate-fade-in-up-delay">
-                    <!-- Technical Tasks Card -->
-                    <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg card-hover">
-                        <h3 class="text-xl sm:text-2xl font-bold text-primary-dark mb-6 flex items-center"><i class="fas fa-cogs mr-3"></i>ការងារផ្នែកបច្ចេកទេស</h3>
-                        <ul class="space-y-4 text-gray-700">
-                            <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i><span>ត្រួតពិនិត្យមើលថែកុំព្យូទ័រជាប្រចាំ</span></li>
-                            <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i><span>ត្រួតពិនិត្យមើលថែអ៊ីនធឺណិត និងឧបករណ៍អេឡិចត្រូនិកជាប្រចាំ</span></li>
-                            <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i><span>តម្លើងនិងជួសជួលកុំព្យូទ័រ</span></li>
-                            <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i><span>រៀបចំប្រព័ន្ធអ៊ីនធឺណិតថ្មី និងតភ្ជាប់បណ្ដាញ</span></li>
-                            <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i><span>រៀបចំប្រព័ន្ធ WIFI</span></li>
-                            <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i><span>តម្លើងកម្មវិធីកុំព្យូទ័រ</span></li>
-                            <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i><span>Setup OS</span></li>
-                            <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i><span>បង្កើតប្រព័ន្ធគ្រប់គ្រងទិន្នន័យការងារផ្សេងៗ</span></li>
-                        </ul>
-                    </div>
-
-                    <!-- Admin Tasks Card -->
-                    <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg card-hover">
-                        <h3 class="text-xl sm:text-2xl font-bold text-primary-dark mb-6 flex items-center"><i class="fas fa-folder-open mr-3"></i>ផ្នែកការងាររដ្ឋបាល និងការងារផ្សេងៗ</h3>
-                         <ul class="space-y-4 text-gray-700">
-                            <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i><span>គ្រប់គ្រងទិន្នន័យវត្តមាន</span></li>
-                            <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i><span>ធ្វើបច្ចុប្បន្នភាពបញ្ជីឈ្មោះ</span></li>
-                            <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i><span>គ្រប់គ្រងប្រព័ន្ធច្បាប់ឈប់សម្រាក និងច្បាប់ចេញចូល</span></li>
-                            <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i><span>អនុវត្តន៍ច្បាប់វិន័យការងារ</span></li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-        </main>
-    </div>
-
-    <!-- Member Detail Modal -->
-    <div id="member-modal" class="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-md flex items-center justify-center p-4 z-[60] hidden opacity-0">
-        <div id="modal-content" class="bg-white rounded-2xl shadow-xl w-full max-w-md mx-auto text-center p-6 sm:p-8 relative transform scale-95">
-            <!-- Close Button -->
-            <button id="modal-close-btn" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 transition-colors">
-                <i class="fas fa-times text-2xl"></i>
-            </button>
-    
-            <img id="modal-img" src="" alt="Team Member" class="w-32 h-32 sm:w-40 sm:h-40 rounded-full mx-auto mb-5 object-cover ring-4 ring-primary-light border-4 border-white shadow-lg">
-            <h3 id="modal-name" class="text-2xl sm:text-3xl font-bold text-primary-dark mb-2"></h3>
-            <p id="modal-expertise" class="text-gray-600 mb-6 text-sm sm:text-base"></p>
-    
-            <a id="modal-telegram-link" href="#" target="_blank" class="inline-flex items-center justify-center bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 text-lg shadow-lg transform hover:scale-105 w-full sm:w-auto btn-shine">
-                <i class="fa-brands fa-telegram text-2xl mr-3"></i>
-                <span>ទាក់ទងតាម Telegram</span>
-            </a>
+        <!-- No Results Message -->
+        <div id="noResults" class="hidden text-center py-10">
+            <p class="text-slate-600 dark:text-slate-300 text-lg">មិនមានទិន្នន័យត្រូវគ្នានឹងការស្វែងរកទេ។</p>
         </div>
     </div>
-
 
     <!-- Footer -->
-    <footer class="bg-primary-dark text-white py-6 bg-gradient-to-r from-primary-dark to-black">
-        <div class="container mx-auto text-center px-4">
-            <p class="text-sm">
-                <span class="md:hidden">&copy; IT SUPPORT ដឹកនាំដោយលោកគ្រូ ពៅ ដារ៉ូ || DI</span>
-                <span class="hidden md:inline">&copy; 2025 ក្រុមការងារ IT SUPPORT ដឹកនាំដោយលោកគ្រូ ពៅ ដារ៉ូ  || រក្សាសិទ្ធិគ្រប់យ៉ាង DI</span>
-            </p>
+    <footer class="text-center py-4 mt-8 border-t dark:border-slate-700">
+        <div id="summaryStats" class="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 text-sm text-slate-600 dark:text-slate-400 mb-3">
+            <!-- Summary stats will be loaded here by JavaScript -->
         </div>
+        <p class="text-sm text-slate-500 dark:text-slate-400 flex justify-center items-center gap-2">
+            <span>អ្នកអភិវឌ្ឍកម្មវិធី IT SUPPORT |</span>
+            <a href="https://darotrb0-bit.github.io/MMKITSUPPORTDI/" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline flex items-center gap-1">
+                <span>MMKITSUPPORTDI Website</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            </a>
+        </p>
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        // --- CONFIGURATION ---
+        const SHEET_ID = '1eRyPoifzyvB4oBmruNyXcoKMKPRqjk6xDD6-bPNW6pc';
+        const SHEET_NAME = 'DIList';
+        const CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${SHEET_NAME}`;
 
-            // --- Page Switching Logic ---
-            const mainPage = document.getElementById('main-page');
-            const responsibilitiesPage = document.getElementById('responsibilities-page');
-            const mainNavLinks = document.querySelectorAll('.main-nav-link');
-            const responsibilitiesNav = document.getElementById('nav-responsibilities');
-            const mobileResponsibilitiesNav = document.getElementById('mobile-nav-responsibilities');
-            const logoLink = document.getElementById('logo-link');
+        // --- DOM ELEMENTS ---
+        const searchInput = document.getElementById('searchInput');
+        const groupFilter = document.getElementById('groupFilter');
+        const classFilter = document.getElementById('classFilter');
+        const sectionFilter = document.getElementById('sectionFilter');
+        const staffListContainer = document.getElementById('staffList');
+        const initialLoadingOverlay = document.getElementById('initial-loading-overlay');
+        const noResultsMessage = document.getElementById('noResults');
+        const staffCount = document.getElementById('staffCount');
+        const resetButton = document.getElementById('resetButton');
+        const refreshButton = document.getElementById('refreshButton');
+        const paginationControls = document.getElementById('paginationControls');
+        const toggleFiltersBtn = document.getElementById('toggleFiltersBtn');
+        const filtersWrapper = document.getElementById('filtersWrapper');
+        const summaryStats = document.getElementById('summaryStats');
 
-            function showPage(pageId) {
-                mainPage.classList.add('hidden');
-                responsibilitiesPage.classList.add('hidden');
-                document.getElementById(pageId).classList.remove('hidden');
-                window.scrollTo(0, 0); // Scroll to top on page change
+        let allStaff = [];
+        let filteredStaff = [];
+        let currentPage = 1;
+        let itemsPerPage = 40; // Default for desktop
+
+        // --- DATA FETCHING AND PARSING ---
+        async function fetchData() {
+            // The loading overlay is visible by default via HTML/CSS
+            staffListContainer.innerHTML = '';
+            paginationControls.innerHTML = '';
+            try {
+                const response = await fetch(CSV_URL);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const csvText = await response.text();
+                const rows = csvText.split('\n').slice(1);
+
+                allStaff = rows.map(row => {
+                    const columns = row.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g) || [];
+                    const cleanCols = columns.map(col => col.trim().replace(/^"|"$/g, ''));
+
+                    return {
+                        id: cleanCols[4] || '',      // Column E
+                        group: cleanCols[6] || '',   // Column G
+                        name: cleanCols[11] || '',   // Column L
+                        gender: cleanCols[13] || '', // Column N
+                        class: cleanCols[17] || '',  // Column R
+                        section: cleanCols[18] || '',// Column S
+                        photoUrl: cleanCols[26] || ''// Column AA
+                    };
+                }).filter(staff => staff.id && staff.name);
+
+                filteredStaff = [...allStaff];
+                updateSummaryStats(filteredStaff); // Initial stats calculation
+                populateFilters();
+                updateItemsPerPage();
+                displayPage(1);
+
+            } catch (error) {
+                console.error('Error fetching or parsing data:', error);
+                staffListContainer.innerHTML = '<p class="text-center text-red-500">មានបញ្ហាក្នុងការទាញទិន្នន័យ។ សូមព្យាយាមម្តងទៀត។</p>';
+            } finally {
+                 if (initialLoadingOverlay) {
+                    initialLoadingOverlay.classList.add('opacity-0');
+                    // Remove the overlay from the DOM after the transition is complete
+                    setTimeout(() => {
+                        initialLoadingOverlay.style.display = 'none';
+                    }, 700); // This should match the transition duration
+                }
             }
+        }
+        
+        // --- SUMMARY STATS ---
+        function updateSummaryStats(staffArray) {
+            const totalStaffCount = staffArray.length;
+            // Assuming 'F' or 'ស្រី' in the gender column denotes female
+            const femaleStaffCount = staffArray.filter(staff => staff.gender.toUpperCase() === 'F' || staff.gender === 'ស្រី').length; 
+            
+            if(summaryStats){
+                summaryStats.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                        <span class="font-semibold">បុគ្គលិកសរុប៖</span> ${totalStaffCount} នាក់
+                    </div> 
+                    <div class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+                        <span class="font-semibold">បុគ្គលិកស្រី៖</span> ${femaleStaffCount} នាក់
+                    </div>`;
+            }
+        }
 
-            responsibilitiesNav.addEventListener('click', (e) => {
-                e.preventDefault();
-                showPage('responsibilities-page');
-            });
-            mobileResponsibilitiesNav.addEventListener('click', (e) => {
-                e.preventDefault();
-                showPage('responsibilities-page');
-                mobileMenu.classList.add('hidden'); // Close mobile menu
-            });
+        // --- PAGINATION & DISPLAY LOGIC ---
+        function updateItemsPerPage() {
+            if (window.innerWidth < 768) { // md breakpoint for Tailwind (mobile-first)
+                itemsPerPage = 15; // 1 column x 15 rows
+                staffListContainer.classList.remove('md:grid-cols-2', 'lg:grid-cols-3', 'xl:grid-cols-4');
+                staffListContainer.classList.add('grid-cols-1');
+            } else {
+                itemsPerPage = 40; // 4 columns x 10 rows
+                staffListContainer.classList.add('md:grid-cols-2', 'lg:grid-cols-3', 'xl:grid-cols-4');
+                staffListContainer.classList.remove('grid-cols-1');
+            }
+        }
+        
+        function displayPage(page) {
+            currentPage = page;
+            staffListContainer.innerHTML = '';
+            
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const paginatedItems = filteredStaff.slice(startIndex, endIndex);
 
-            mainNavLinks.forEach(link => {
-                link.addEventListener('click', (e) => {
-                    // Check if the link is for a section on the main page
-                    if (link.getAttribute('href').startsWith('#') && !link.id.includes('responsibilities')) {
-                        showPage('main-page');
-                        // Let the default anchor link behavior handle the scrolling
-                    }
-                });
+            noResultsMessage.style.display = filteredStaff.length === 0 ? 'block' : 'none';
+            staffCount.textContent = `លទ្ធផល៖ ${filteredStaff.length} នាក់`;
+
+            paginatedItems.forEach((staff, index) => {
+                const card = document.createElement('div');
+                card.className = 'bg-white dark:bg-slate-800 rounded-xl shadow-md hover:shadow-xl hover:scale-[1.03] p-4 transition-all duration-300 card-enter border border-slate-200 dark:border-slate-700';
+                card.innerHTML = `
+                    <div class="flex items-center space-x-4">
+                        <div class="w-16 h-16 rounded-full flex-shrink-0 bg-slate-200 dark:bg-slate-700 border-4 border-slate-200 dark:border-slate-600 overflow-hidden">
+                            <img 
+                                src="${staff.photoUrl || `https://placehold.co/100x100/EBF4FF/333333?text=${staff.name.charAt(0)}`}" 
+                                onerror="this.onerror=null; this.src='https://placehold.co/100x100/EBF4FF/333333?text=${staff.name.charAt(0)}'"
+                                alt="រូបថតរបស់ ${staff.name}" 
+                                class="w-full h-full object-cover"
+                                loading="lazy"
+                                decoding="async"
+                            >
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h3 class="text-md sm:text-lg font-bold text-slate-900 dark:text-white truncate">${staff.name}</h3>
+                            <p class="text-sm text-slate-500 dark:text-slate-400">អត្តលេខ: ${staff.id}</p>
+                            <div class="mt-2 flex flex-wrap gap-x-2 gap-y-1">
+                                ${staff.group ? `<span class="px-2 py-0.5 text-xs font-semibold text-green-800 bg-green-100 dark:bg-green-900 dark:text-green-200 rounded-full">${staff.group}</span>` : ''}
+                                ${staff.class ? `<span class="px-2 py-0.5 text-xs font-semibold text-indigo-800 bg-indigo-100 dark:bg-indigo-900 dark:text-indigo-200 rounded-full">${staff.class}</span>` : ''}
+                                ${staff.section ? `<span class="px-2 py-0.5 text-xs font-semibold text-purple-800 bg-purple-100 dark:bg-purple-900 dark:text-purple-200 rounded-full">${staff.section}</span>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                staffListContainer.appendChild(card);
+                setTimeout(() => card.classList.add('card-enter-active'), index * 25);
             });
             
-            logoLink.addEventListener('click', (e) => {
-                 e.preventDefault();
-                 showPage('main-page');
-                 // Smooth scroll to top
-                 document.getElementById('home').scrollIntoView({ behavior: 'smooth' });
+            setupPagination();
+        }
+
+        function setupPagination() {
+            paginationControls.innerHTML = '';
+            const totalPages = Math.ceil(filteredStaff.length / itemsPerPage);
+
+            if (totalPages <= 1) return;
+
+            // Previous Button
+            const prevButton = document.createElement('button');
+            prevButton.innerHTML = `&laquo;`;
+            prevButton.className = 'pagination-btn';
+            if (currentPage === 1) prevButton.classList.add('disabled');
+            prevButton.addEventListener('click', () => {
+                if(currentPage > 1) displayPage(currentPage - 1);
             });
+            paginationControls.appendChild(prevButton);
 
-            // --- Mobile Menu Logic ---
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-
-            // Close mobile menu when a link is clicked
-            const mobileMenuLinks = mobileMenu.getElementsByTagName('a');
-            for (let i = 0; i < mobileMenuLinks.length; i++) {
-                if(!mobileMenuLinks[i].id.includes('responsibilities')){
-                     mobileMenuLinks[i].addEventListener('click', () => {
-                        mobileMenu.classList.add('hidden');
-                    });
+            // Page Buttons
+            let pagesToShow = [];
+            if (totalPages <= 5) {
+                for (let i = 1; i <= totalPages; i++) pagesToShow.push(i);
+            } else {
+                if (currentPage <= 3) {
+                    pagesToShow = [1, 2, 3, '...', totalPages];
+                } else if (currentPage >= totalPages - 2) {
+                    pagesToShow = [1, '...', totalPages - 2, totalPages - 1, totalPages];
+                } else {
+                    pagesToShow = [1, '...', currentPage - 1, currentPage, currentPage + 1, '...', totalPages];
                 }
             }
 
-            // --- Collapsible General Members Logic ---
-            const toggleButton = document.getElementById('toggle-general-members');
-            const membersGrid = document.getElementById('general-members-grid');
-            const toggleIcon = document.getElementById('toggle-icon');
-
-            toggleButton.addEventListener('click', () => {
-                membersGrid.classList.toggle('hidden');
-                toggleIcon.classList.toggle('rotate-180');
+            pagesToShow.forEach(page => {
+                 if (page === '...') {
+                    const dots = document.createElement('span');
+                    dots.className = 'flex items-center justify-center px-3 h-8 text-sm font-medium text-gray-500 dark:text-slate-400';
+                    dots.textContent = '...';
+                    paginationControls.appendChild(dots);
+                } else {
+                    const pageButton = document.createElement('button');
+                    pageButton.textContent = page;
+                    pageButton.className = 'pagination-btn';
+                    if (page === currentPage) pageButton.classList.add('active');
+                    pageButton.addEventListener('click', () => displayPage(page));
+                    paginationControls.appendChild(pageButton);
+                }
             });
-            
-            // --- Elements for Modal and Connector Line ---
-            const modal = document.getElementById('member-modal');
-            const modalContent = document.getElementById('modal-content');
-            const modalCloseBtn = document.getElementById('modal-close-btn');
-            const modalImg = document.getElementById('modal-img');
-            const modalName = document.getElementById('modal-name');
-            const modalExpertise = document.getElementById('modal-expertise');
-            const modalTelegramLink = document.getElementById('modal-telegram-link');
-            
-            const container = document.getElementById('team-visual-container');
-            const managerCard = document.getElementById('manager-card').querySelector('img');
-            const hrPlaceholder = document.getElementById('hr-placeholder');
-            const assistantCards = document.querySelectorAll('.assistant-card');
-            const svg = document.getElementById('connector-svg');
-            const path = document.getElementById('connector-path');
 
-            // --- Functions for Modal ---
-            function openModal(card) {
-                modalImg.src = card.dataset.img;
-                modalName.textContent = card.dataset.name;
-                modalExpertise.innerHTML = `<span class="font-semibold text-gray-800">អ្នកជំនាញ៖</span> ${card.dataset.expertise}`;
-                modalTelegramLink.href = card.dataset.telegram;
-                modal.classList.remove('hidden');
-                setTimeout(() => {
-                    modal.classList.remove('opacity-0');
-                    modalContent.classList.remove('scale-95');
-                    modalContent.classList.add('scale-100');
-                }, 10);
+            // Next Button
+            const nextButton = document.createElement('button');
+            nextButton.innerHTML = `&raquo;`;
+            nextButton.className = 'pagination-btn';
+            if (currentPage === totalPages) nextButton.classList.add('disabled');
+            nextButton.addEventListener('click', () => {
+                if(currentPage < totalPages) displayPage(currentPage + 1);
+            });
+            paginationControls.appendChild(nextButton);
+        }
+
+        // --- FILTERING LOGIC ---
+        function populateFilters() {
+            const groups = [...new Set(allStaff.map(s => s.group).filter(Boolean))].sort();
+            const classes = [...new Set(allStaff.map(s => s.class).filter(Boolean))].sort();
+            const sections = [...new Set(allStaff.map(s => s.section).filter(Boolean))].sort();
+
+            populateSelect(groupFilter, groups);
+            populateSelect(classFilter, classes);
+            populateSelect(sectionFilter, sections);
+        }
+
+        function populateSelect(selectElement, options) {
+            // Clear previous options except the first one
+            while (selectElement.options.length > 1) {
+                selectElement.remove(1);
             }
-
-            function closeModal() {
-                hideLine(); // Hide line when modal closes
-                modalContent.classList.remove('scale-100');
-                modalContent.classList.add('scale-95');
-                modal.classList.add('opacity-0');
-                setTimeout(() => modal.classList.add('hidden'), 300);
-            }
-
-            modalCloseBtn.addEventListener('click', closeModal);
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) closeModal();
+            options.forEach(option => {
+                const opt = document.createElement('option');
+                opt.value = option;
+                opt.textContent = option;
+                selectElement.appendChild(opt);
             });
+        }
 
-            // --- Functions for Connector Line ---
-            const drawLine = (assistantCard) => {
-                const containerRect = container.getBoundingClientRect();
-                const managerRect = managerCard.getBoundingClientRect();
-                const assistantRect = assistantCard.querySelector('img').getBoundingClientRect();
-                const hrRect = hrPlaceholder.getBoundingClientRect();
+        // Helper function to escape special characters for regex
+        function escapeRegExp(string) {
+          return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+        }
 
-                // Start point: Bottom-center of the manager's image
-                const startX = (managerRect.left + managerRect.width / 2) - containerRect.left;
-                const startY = managerRect.bottom - containerRect.top;
+        function applyFilters() {
+            const searchTerm = searchInput.value.trim();
+            const searchTermLower = searchTerm.toLowerCase();
+            const selectedGroup = groupFilter.value;
+            const selectedClass = classFilter.value;
+            const selectedSection = sectionFilter.value;
+
+            // Create a regex for whole-word matching for specific fields
+            const escapedTerm = escapeRegExp(searchTerm);
+            const searchRegex = new RegExp('\\b' + escapedTerm + '\\b', 'i');
+
+            filteredStaff = allStaff.filter(staff => {
+                let matchesSearch = true;
+                if (searchTerm) {
+                    matchesSearch = 
+                        staff.name.toLowerCase().includes(searchTermLower) || // Flexible search for names
+                        searchRegex.test(staff.id) ||
+                        searchRegex.test(staff.group) ||
+                        searchRegex.test(staff.class) ||
+                        searchRegex.test(staff.section);
+                }
                 
-                // End point: Top-center of the assistant's image
-                const endX = (assistantRect.left + assistantRect.width / 2) - containerRect.left;
-                const endY = assistantRect.top - containerRect.top;
+                const matchesGroup = !selectedGroup || staff.group === selectedGroup;
+                const matchesClass = !selectedClass || staff.class === selectedClass;
+                const matchesSection = !selectedSection || staff.section === selectedSection;
 
-                // Midpoint Y: Use the animated HR line as the perfect vertical position for the horizontal line
-                const midY = (hrRect.top + hrRect.height / 2) - containerRect.top;
-                
-                const cornerRadius = 20; // How rounded the corners are
-
-                // Build the path with curved corners (Arc command 'A')
-                const pathData = `
-                    M ${startX} ${startY} 
-                    V ${midY - cornerRadius}
-                    A ${cornerRadius} ${cornerRadius} 0 0 ${startX > endX ? 1 : 0} ${startX > endX ? startX - cornerRadius : startX + cornerRadius} ${midY}
-                    H ${endX > startX ? endX - cornerRadius : endX + cornerRadius}
-                    A ${cornerRadius} ${cornerRadius} 0 0 ${startX > endX ? 0 : 1} ${endX} ${midY + cornerRadius}
-                    V ${endY}
-                `;
-                
-                path.setAttribute('d', pathData);
-                svg.classList.remove('opacity-0');
-            };
-
-            const hideLine = () => {
-                svg.classList.add('opacity-0');
-            };
-
-            // --- Combined Event Listeners for Assistants ---
-            assistantCards.forEach(card => {
-                // For both Desktop and Mobile: Click/Tap opens modal and shows line
-                card.addEventListener('click', () => {
-                    drawLine(card);
-                    openModal(card);
-                });
-
-                // For Desktop only: Hover shows line
-                card.addEventListener('mouseenter', () => {
-                    // We only want the hover effect if no modal is open
-                    if (modal.classList.contains('hidden')) {
-                        drawLine(card);
-                    }
-                });
+                return matchesSearch && matchesGroup && matchesClass && matchesSection;
             });
             
-            // For Desktop only: Hide line when mouse leaves the whole container
-            container.addEventListener('mouseleave', () => {
-                // We only want to hide the line if no modal is open
-                 if (modal.classList.contains('hidden')) {
-                    hideLine();
-                 }
-            });
+            updateSummaryStats(filteredStaff); // Update stats based on filter
+            displayPage(1); // Reset to first page
+        }
+
+        function resetAllFilters() {
+            searchInput.value = '';
+            groupFilter.value = '';
+            classFilter.value = '';
+            sectionFilter.value = '';
+            filteredStaff = [...allStaff];
+            updateSummaryStats(filteredStaff); // Update stats on reset
+            displayPage(1);
+        }
+
+        // --- EVENT LISTENERS ---
+        document.addEventListener('DOMContentLoaded', fetchData);
+        searchInput.addEventListener('input', applyFilters);
+        groupFilter.addEventListener('change', applyFilters);
+        classFilter.addEventListener('change', applyFilters);
+        sectionFilter.addEventListener('change', applyFilters);
+        resetButton.addEventListener('click', resetAllFilters);
+        refreshButton.addEventListener('click', () => {
+            location.reload();
         });
+        toggleFiltersBtn.addEventListener('click', () => {
+            filtersWrapper.classList.toggle('hidden');
+        });
+        window.addEventListener('resize', () => {
+            updateItemsPerPage();
+            // Re-render the current view with the new itemsPerPage value
+            displayPage(currentPage); 
+        });
+
+        // --- SWIPE GESTURE NAVIGATION FOR MOBILE ---
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        function handleSwipeGesture() {
+            const totalPages = Math.ceil(filteredStaff.length / itemsPerPage);
+            const swipeThreshold = 50; // Minimum pixel distance for a swipe
+
+            if (touchEndX < touchStartX - swipeThreshold) {
+                // Swiped left
+                if (currentPage < totalPages) {
+                    displayPage(currentPage + 1);
+                }
+            }
+
+            if (touchEndX > touchStartX + swipeThreshold) {
+                // Swiped right
+                if (currentPage > 1) {
+                    displayPage(currentPage - 1);
+                }
+            }
+        }
+
+        staffListContainer.addEventListener('touchstart', (event) => {
+            touchStartX = event.changedTouches[0].screenX;
+        }, { passive: true });
+
+        staffListContainer.addEventListener('touchend', (event) => {
+            touchEndX = event.changedTouches[0].screenX;
+            handleSwipeGesture();
+        });
+
     </script>
 </body>
 </html>
