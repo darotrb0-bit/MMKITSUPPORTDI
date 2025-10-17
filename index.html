@@ -16,19 +16,11 @@
         /* Custom styles */
         body {
             font-family: 'Kantumruy Pro', 'Inter', sans-serif;
-            background-color: #f8fafc; /* Lighter background */
+            background-color: #f8fafc;
         }
         /* Style for smooth scrolling */
         html {
             scroll-behavior: smooth;
-        }
-        /* Add a subtle animation to cards */
-        .card-hover {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .card-hover:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
         }
         /* Styles for Modal transition */
         #member-modal {
@@ -36,6 +28,121 @@
         }
         #modal-content {
             transition: transform 0.3s ease-in-out;
+        }
+
+        /* Enhanced Card Hover Effect */
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            border: 2px solid transparent;
+        }
+        .card-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 30px -12px rgb(0 0 0 / 0.15);
+            border-color: #005B96; /* primary */
+        }
+        .assistant-card:hover img {
+            transform: scale(1.05);
+            transition: transform 0.3s ease;
+        }
+        .assistant-card img {
+            transition: transform 0.3s ease;
+        }
+
+        /* Button Shine Effect */
+        .btn-shine {
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-shine::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.7s ease;
+        }
+        .btn-shine:hover::before {
+            left: 100%;
+        }
+
+        /* Animations for Hero Section */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-down {
+            animation: fadeInDown 0.8s ease-out 0.2s backwards;
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out 0.4s backwards;
+        }
+        .animate-fade-in-up-delay {
+             animation: fadeInUp 0.8s ease-out 0.6s backwards;
+        }
+
+        /* Subtle background animation */
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .animated-gradient-bg {
+            background: linear-gradient(-45deg, #f0f4f8, #e6eef5, #d9e2ec, #f0f4f8);
+            background-size: 400% 400%;
+            animation: gradient-animation 20s ease infinite;
+        }
+
+        /* Animated Gradient Text for Titles */
+        .animated-gradient-text {
+            background: linear-gradient(90deg, #011F4B, #005B96, #6497B1, #011F4B);
+            background-size: 250% auto;
+            color: #000;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: text-shine 8s linear infinite;
+        }
+        @keyframes text-shine {
+            to {
+                background-position: -250% center;
+            }
+        }
+        
+        /* Animated HR line effect */
+        .animated-hr {
+            border: none;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #005B96, transparent);
+            background-size: 200% 100%;
+            animation: hr-scan 4s linear infinite;
+            margin: 3rem auto;
+            width: 80%;
+            max-width: 400px;
+        }
+        @keyframes hr-scan {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        header {
+            box-shadow: 0 4px 14px 0 rgba(1, 31, 75, 0.1);
+        }
+        
+        /* Digital Connector Line Effect */
+        #connector-path {
+            stroke-dasharray: 8 4;
+            animation: run-line 0.5s linear infinite;
+        }
+        @keyframes run-line {
+            to {
+                stroke-dashoffset: -12;
+            }
         }
     </style>
     <script>
@@ -60,7 +167,7 @@
 <body class="bg-slate-50 text-gray-800">
 
     <!-- Header & Navigation -->
-    <header class="bg-primary-dark text-white shadow-lg sticky top-0 z-50 backdrop-blur-sm bg-opacity-90">
+    <header class="bg-primary-dark text-white sticky top-0 z-50 backdrop-blur-sm bg-opacity-90 border-b border-primary/20">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
             <div class="text-lg md:text-2xl font-bold tracking-wider">
                 <a href="#" id="logo-link"><i class="fas fa-shield-halved mr-2"></i>ឧស្សាហកម្មឌីជីថល</a>
@@ -90,195 +197,216 @@
 
     <!-- Main Page Content -->
     <div id="main-page">
-        <main class="container mx-auto px-4 py-8">
+        <main>
             <!-- Hero Section -->
-            <section id="home" class="text-center py-12 md:py-24">
-                <div class="max-w-3xl mx-auto">
-                    <h1 class="text-3xl sm:text-4xl md:text-6xl font-bold text-primary-dark mb-4 leading-tight">សូមស្វាគមន៍មកកាន់ក្រុមការងារ IT SUPPORT</h1>
-                    <p class="text-base md:text-xl text-gray-600 mb-2">គ្រប់គ្រងដោយលោកគ្រូ <span class="font-bold text-primary">ពៅ ដារ៉ូ</span></p>
-                    <p class="text-gray-500 max-w-xl mx-auto mb-8">ដោះស្រាយបញ្ហាបច្ចេកវិទ្យា គ្រប់គ្រងកុំព្យូទ័រ អ៊ីនធឺណិត ក្នុងអគារ​DI សាលាDUC និងក្នុងបុរីចាស្មីន។</p>
-                    <a href="#contact" class="bg-primary hover:bg-primary-dark text-white font-bold py-3 px-8 rounded-full transition duration-300 text-lg shadow-lg transform hover:scale-105">ស្នើសុំជំនួយ</a>
+            <section id="home" class="text-center py-16 md:py-28 animated-gradient-bg">
+                <div class="max-w-3xl mx-auto px-4">
+                    <h1 class="text-3xl sm:text-4xl md:text-6xl font-bold text-primary-dark mb-4 leading-tight animate-fade-in-down">សូមស្វាគមន៍មកកាន់ក្រុមការងារ IT SUPPORT</h1>
+                    <p class="text-base md:text-xl text-gray-600 mb-2 animate-fade-in-up">គ្រប់គ្រងដោយលោកគ្រូ <span class="font-bold text-primary">ពៅ ដារ៉ូ</span></p>
+                    <p class="text-gray-500 max-w-xl mx-auto mb-8 animate-fade-in-up">ដោះស្រាយបញ្ហាបច្ចេកវិទ្យា គ្រប់គ្រងកុំព្យូទ័រ អ៊ីនធឺណិត ក្នុងអគារ​DI សាលាDUC និងក្នុងបុរីចាស្មីន។</p>
+                    <a href="#contact" class="bg-gradient-to-r from-primary to-primary-light hover:from-primary-dark hover:to-primary text-white font-bold py-3 px-8 rounded-full transition duration-300 text-lg shadow-lg transform hover:scale-105 animate-fade-in-up-delay btn-shine">ស្នើសុំជំនួយ</a>
                 </div>
             </section>
 
             <!-- Services Section -->
-            <section id="services" class="py-12 sm:py-16">
-                <h2 class="text-2xl sm:text-3xl font-bold text-center mb-12 text-primary-dark">សេវាកម្មរបស់យើង</h2>
-                <div class="space-y-6 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-8 md:space-y-0">
-                    <!-- Service Card 1 -->
-                    <div class="bg-white p-6 md:p-8 rounded-xl shadow-md card-hover flex items-center md:block">
-                        <div class="flex-shrink-0 bg-secondary text-primary-dark rounded-full w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center md:mb-5">
-                            <i class="fa-solid fa-computer text-2xl sm:text-3xl"></i>
+            <section id="services" class="py-16 sm:py-20">
+                <div class="container mx-auto px-4">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-center mb-12 animated-gradient-text">សេវាកម្មរបស់យើង</h2>
+                    <div class="space-y-6 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-8 md:space-y-0">
+                        <!-- Service Card 1 -->
+                        <div class="bg-white p-6 md:p-8 rounded-xl shadow-md card-hover text-center">
+                            <div class="flex-shrink-0 bg-gradient-to-br from-secondary to-primary-light text-primary-dark rounded-full w-20 h-20 flex items-center justify-center mb-5 mx-auto shadow-inner">
+                                <i class="fa-solid fa-computer text-4xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg sm:text-xl font-semibold mb-3 text-primary-dark">ដំឡើង និងជួសជុលកុំព្យូទ័រ</h3>
+                                <p class="text-gray-600 text-sm sm:text-base">សេវាកម្មដំឡើង កំណត់ និងជួសជុលបញ្ហា Hardware និង Software គ្រប់ប្រភេទ។</p>
+                            </div>
                         </div>
-                        <div class="ml-6 md:ml-0">
-                            <h3 class="text-lg sm:text-xl font-semibold mb-1 md:mb-3 text-primary-dark">ដំឡើង និងជួសជុលកុំព្យូទ័រ</h3>
-                            <p class="text-gray-600 text-sm sm:text-base">សេវាកម្មដំឡើង កំណត់ និងជួសជុលបញ្ហា Hardware និង Software គ្រប់ប្រភេទ។</p>
+                        <!-- Service Card 2 -->
+                        <div class="bg-white p-6 md:p-8 rounded-xl shadow-md card-hover text-center">
+                             <div class="flex-shrink-0 bg-gradient-to-br from-secondary to-primary-light text-primary-dark rounded-full w-20 h-20 flex items-center justify-center mb-5 mx-auto shadow-inner">
+                                <i class="fa-solid fa-wifi text-4xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg sm:text-xl font-semibold mb-3 text-primary-dark">ដោះស្រាយបញ្ហាបណ្តាញ</h3>
+                                <p class="text-gray-600 text-sm sm:text-base">ដំឡើងប្រព័ន្ធបណ្តាញ Internet, Wi-Fi និងដោះស្រាយបញ្ហាបណ្តាញយឺត ឬដាច់។</p>
+                            </div>
                         </div>
-                    </div>
-                    <!-- Service Card 2 -->
-                    <div class="bg-white p-6 md:p-8 rounded-xl shadow-md card-hover flex items-center md:block">
-                         <div class="flex-shrink-0 bg-secondary text-primary-dark rounded-full w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center md:mb-5">
-                            <i class="fa-solid fa-wifi text-2xl sm:text-3xl"></i>
-                        </div>
-                        <div class="ml-6 md:ml-0">
-                            <h3 class="text-lg sm:text-xl font-semibold mb-1 md:mb-3 text-primary-dark">ដោះស្រាយបញ្ហាបណ្តាញ</h3>
-                            <p class="text-gray-600 text-sm sm:text-base">ដំឡើងប្រព័ន្ធបណ្តាញ Internet, Wi-Fi និងដោះស្រាយបញ្ហាបណ្តាញយឺត ឬដាច់។</p>
-                        </div>
-                    </div>
-                    <!-- Service Card 3 -->
-                    <div class="bg-white p-6 md:p-8 rounded-xl shadow-md card-hover flex items-center md:block">
-                        <div class="flex-shrink-0 bg-secondary text-primary-dark rounded-full w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center md:mb-5">
-                            <i class="fa-solid fa-download text-2xl sm:text-3xl"></i>
-                        </div>
-                        <div class="ml-6 md:ml-0">
-                            <h3 class="text-lg sm:text-xl font-semibold mb-1 md:mb-3 text-primary-dark">ដំឡើងកម្មវិធី (Software)</h3>
-                            <p class="text-gray-600 text-sm sm:text-base">ដំឡើងកម្មវិធីផ្សេងៗតាមតម្រូវការ រួមទាំងប្រព័ន្ធប្រតិបត្តិការ Windows។</p>
+                        <!-- Service Card 3 -->
+                        <div class="bg-white p-6 md:p-8 rounded-xl shadow-md card-hover text-center">
+                            <div class="flex-shrink-0 bg-gradient-to-br from-secondary to-primary-light text-primary-dark rounded-full w-20 h-20 flex items-center justify-center mb-5 mx-auto shadow-inner">
+                                <i class="fa-solid fa-download text-4xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg sm:text-xl font-semibold mb-3 text-primary-dark">ដំឡើងកម្មវិធី (Software)</h3>
+                                <p class="text-gray-600 text-sm sm:text-base">ដំឡើងកម្មវិធីផ្សេងៗតាមតម្រូវការ រួមទាំងប្រព័ន្ធប្រតិបត្តិការ Windows។</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
 
             <!-- Team Section -->
-            <section id="team" class="py-12 sm:py-16 bg-lightbg rounded-2xl">
-                <div class="text-center mb-12 px-4">
-                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-primary-dark">ជួបជាមួយក្រុមការងារយើង</h2>
-                    <p class="text-gray-600 mt-2">ក្រុម​អ្នក​ជំនាញ​ដែល​ត្រៀម​ខ្លួន​ជា​និច្ច​ដើម្បី​ជួយ​អ្នក</p>
-                </div>
-
-                <!-- Manager -->
-                <div class="max-w-xs mx-auto text-center mb-12">
-                    <div class="relative inline-block">
-                        <img class="h-32 w-32 sm:h-40 sm:w-40 rounded-full object-cover mx-auto shadow-lg border-4 border-primary" src="https://i.postimg.cc/hPcbKwwn/photo-2025-09-27-15-47-14.jpg" alt="Pov Daro">
-                         <span class="absolute bottom-2 -right-2 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">អ្នកគ្រប់គ្រង</span>
-                    </div>
-                    <h3 class="text-xl sm:text-2xl font-bold text-black mt-4">ពៅ ដារ៉ូ</h3>
-                    <a href="https://t.me/MMKDaro" target="_blank" class="inline-flex items-center mt-2 text-primary hover:text-primary-dark font-medium transition duration-300">
-                         <i class="fa-brands fa-telegram text-xl mr-2"></i>
-                         <span>ទាក់ទងឥឡូវនេះ</span>
-                    </a>
-                </div>
-
-                <!-- Team Members Grid Container -->
-                <div class="px-4">
-                    <!-- Assistants -->
-                    <div class="text-center mb-10 mt-10">
-                        <h3 class="text-xl sm:text-2xl font-bold text-primary-dark">ជំនួយការផ្ទាល់</h3>
-                    </div>
-                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 sm:gap-x-6 gap-y-10">
-                        <!-- Bon Chantha -->
-                        <div class="assistant-card bg-white text-center p-4 sm:p-6 rounded-xl shadow-md card-hover cursor-pointer"
-                             data-name="ប៊ន ចន្ថា"
-                             data-img="https://i.postimg.cc/1zdLNBxk/compressed-ប៊ន_ចន្ថា.jpg"
-                             data-expertise="Developer & Software & Network"
-                             data-telegram="https://t.me/Ch_Tha002">
-                            <img src="https://i.postimg.cc/1zdLNBxk/compressed-ប៊ន_ចន្ថា.jpg" alt="ប៊ន ចន្ថា" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto mb-4 object-cover ring-4 ring-secondary pointer-events-none">
-                            <h4 class="text-base sm:text-lg font-bold text-primary-dark pointer-events-none">ប៊ន ចន្ថា</h4>
-                        </div>
-                         <!-- Laok Lanon -->
-                        <div class="assistant-card bg-white text-center p-4 sm:p-6 rounded-xl shadow-md card-hover cursor-pointer"
-                             data-name="ឡោក ឡាណុន"
-                             data-img="https://i.postimg.cc/3N8CrMSY/compressed-ឡោក_ឆាណុន.jpg"
-                             data-expertise="Network & Software & ទិន្នន័យវត្តមាន"
-                             data-telegram="https://t.me/Maanon_CH">
-                            <img src="https://i.postimg.cc/3N8CrMSY/compressed-ឡោក_ឆាណុន.jpg" alt="ឡោក ឡាណុន" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto mb-4 object-cover ring-4 ring-secondary pointer-events-none">
-                            <h4 class="text-base sm:text-lg font-bold text-primary-dark pointer-events-none">ឡោក ឡាណុន</h4>
-                        </div>
-                        <!-- Roeun Sreynet -->
-                        <div class="assistant-card bg-white text-center p-4 sm:p-6 rounded-xl shadow-md card-hover cursor-pointer"
-                             data-name="រឿន ស្រីណែត"
-                             data-img="https://i.postimg.cc/SRfTV75N/compressed-រឿន_ស្រីណែត.jpg"
-                             data-expertise="ទិន្នន័យវត្តមាន & កិច្ចការរដ្ឋបាល & Network"
-                             data-telegram="https://t.me/roeurnsreyneth">
-                            <img src="https://i.postimg.cc/SRfTV75N/compressed-រឿន_ស្រីណែត.jpg" alt="រឿន ស្រីណែត" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto mb-4 object-cover ring-4 ring-secondary pointer-events-none">
-                            <h4 class="text-base sm:text-lg font-bold text-primary-dark pointer-events-none">រឿន ស្រីណែត</h4>
-                        </div>
-                         <!-- Pey Thavry -->
-                        <div class="assistant-card bg-white text-center p-4 sm:p-6 rounded-xl shadow-md card-hover cursor-pointer"
-                             data-name="ប៉ី ថាវរី"
-                             data-img="https://i.postimg.cc/hGRmPWv6/compressed-ប៉ី_ថាវរី.jpg"
-                             data-expertise="ទិន្នន័យវត្តមាន & Network & Software"
-                             data-telegram="https://t.me/Peythavry">
-                            <img src="https://i.postimg.cc/hGRmPWv6/compressed-ប៉ី_ថាវរី.jpg" alt="ប៉ី ថាវរី" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto mb-4 object-cover ring-4 ring-secondary pointer-events-none">
-                            <h4 class="text-base sm:text-lg font-bold text-primary-dark pointer-events-none">ប៉ី ថាវរី</h4>
-                        </div>
-                         <!-- Soy Keomsodany -->
-                        <div class="assistant-card bg-white text-center p-4 sm:p-6 rounded-xl shadow-md card-hover cursor-pointer"
-                             data-name="សយ គឹមសុដានី"
-                             data-img="https://i.postimg.cc/VkwxKDQg/image.png"
-                             data-expertise="ទិន្នន័យវត្តមាន & Network & Software"
-                             data-telegram="https://t.me/Soykeomsodany0717978187">
-                            <img src="https://i.postimg.cc/VkwxKDQg/image.png" alt="សយ គឹមសុដានី" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto mb-4 object-cover ring-4 ring-secondary pointer-events-none">
-                            <h4 class="text-base sm:text-lg font-bold text-primary-dark pointer-events-none">សយ គឹមសុដានី</h4>
-                        </div>
-                        <!-- Hen Chanthai -->
-                        <div class="assistant-card bg-white text-center p-4 sm:p-6 rounded-xl shadow-md card-hover cursor-pointer"
-                             data-name="ហឹន ចាន់ថៃ"
-                             data-img="https://i.postimg.cc/hjLMkbB5/compressed-ហឹន_ចាន់ថៃ.jpg"
-                             data-expertise="ទិន្នន័យវត្តមាន & Network"
-                             data-telegram="https://t.me/CHANTHAI6435">
-                            <img src="https://i.postimg.cc/hjLMkbB5/compressed-ហឹន_ចាន់ថៃ.jpg" alt="ហឹន ចាន់ថៃ" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto mb-4 object-cover ring-4 ring-secondary pointer-events-none">
-                            <h4 class="text-base sm:text-lg font-bold text-primary-dark pointer-events-none">ហឹន ចាន់ថៃ</h4>
-                        </div>
+            <section id="team" class="py-16 sm:py-20 bg-lightbg">
+                 <div class="container mx-auto px-4">
+                    <div class="text-center mb-12">
+                        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold animated-gradient-text">ជួបជាមួយក្រុមការងារយើង</h2>
+                        <p class="text-gray-600 mt-2">ក្រុម​អ្នក​ជំនាញ​ដែល​ត្រៀម​ខ្លួន​ជា​និច្ច​ដើម្បី​ជួយ​អ្នក</p>
                     </div>
 
-                    <!-- General Members Section -->
-                    <div class="mt-12">
-                        <!-- Clickable Title -->
-                        <div id="toggle-general-members" class="text-center mb-10 cursor-pointer group">
-                            <h3 class="text-xl sm:text-2xl font-bold text-primary-dark inline-flex items-center group-hover:text-primary transition-colors">
-                                ក្រុមការងារ IT SUPPORT
-                                <i id="toggle-icon" class="fas fa-chevron-down ml-3 transition-transform duration-300"></i>
-                            </h3>
+                    <div id="team-visual-container" class="relative">
+                        <!-- SVG for connector line -->
+                        <svg id="connector-svg" class="absolute top-0 left-0 w-full h-full pointer-events-none opacity-0 transition-opacity duration-300 z-10">
+                            <defs>
+                                <linearGradient id="line-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" style="stop-color:#6497B1;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#005B96;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                            <path id="connector-path" d="" stroke="url(#line-gradient)" stroke-width="3" fill="none" stroke-linecap="round"/>
+                        </svg>
+
+                        <!-- Manager -->
+                        <div id="manager-card" class="max-w-xs mx-auto text-center relative z-20">
+                            <div class="relative inline-block">
+                                <img class="h-32 w-32 sm:h-40 sm:w-40 rounded-full object-cover mx-auto shadow-lg border-4 border-primary" src="https://i.postimg.cc/hPcbKwwn/photo-2025-09-27-15-47-14.jpg" alt="Pov Daro">
+                                 <span class="absolute bottom-2 -right-2 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">អ្នកគ្រប់គ្រង</span>
+                            </div>
+                            <h3 class="text-xl sm:text-2xl font-bold text-black mt-4">ពៅ ដារ៉ូ</h3>
+                            <a href="https://t.me/MMKDaro" target="_blank" class="inline-flex items-center mt-2 text-primary hover:text-primary-dark font-medium transition duration-300">
+                                 <i class="fa-brands fa-telegram text-xl mr-2"></i>
+                                 <span>ទាក់ទងឥឡូវនេះ</span>
+                            </a>
                         </div>
 
-                        <!-- Collapsible Grid for General Members -->
-                        <div id="general-members-grid" class="hidden max-w-xl mx-auto space-y-4 mt-8">
-                            <!-- Kong Seat -->
-                             <div class="bg-white p-4 rounded-xl shadow-md flex items-center gap-4 card-hover">
-                                <img src="https://i.postimg.cc/HnMHLKVv/compressed.jpg" alt="គង់ ស៊ាត" class="w-16 h-16 rounded-full object-cover ring-4 ring-secondary">
-                                <div>
-                                    <h4 class="text-base sm:text-lg font-bold text-primary-dark">គង់ ស៊ាត</h4>
-                                    <p class="text-gray-500 text-xs sm:text-sm">Network & Software</p>
+                        <!-- This HR is now just a visual separator, the line logic is handled by SVG -->
+                        <div id="hr-placeholder" class="animated-hr"></div>
+
+                        <!-- Team Members Grid Container -->
+                        <div class="relative z-20">
+                            <!-- Assistants -->
+                            <div id="assistants-title" class="text-center mb-10 mt-10">
+                                <h3 class="text-xl sm:text-2xl font-bold text-primary-dark">ជំនួយការផ្ទាល់</h3>
+                            </div>
+                            <div id="assistants-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 sm:gap-x-6 gap-y-10">
+                                <!-- Bon Chantha -->
+                                <div class="assistant-card bg-white text-center p-4 sm:p-6 rounded-xl shadow-md card-hover cursor-pointer"
+                                     data-name="ប៊ន ចន្ថា"
+                                     data-img="https://i.postimg.cc/1zdLNBxk/compressed-ប៊ន_ចន្ថា.jpg"
+                                     data-expertise="Developer & Software & Network"
+                                     data-telegram="https://t.me/Ch_Tha002">
+                                    <img src="https://i.postimg.cc/1zdLNBxk/compressed-ប៊ន_ចន្ថា.jpg" alt="ប៊ន ចន្ថា" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto mb-4 object-cover ring-4 ring-secondary pointer-events-none">
+                                    <h4 class="text-base sm:text-lg font-bold text-primary-dark pointer-events-none">ប៊ន ចន្ថា</h4>
+                                </div>
+                                 <!-- Laok Lanon -->
+                                <div class="assistant-card bg-white text-center p-4 sm:p-6 rounded-xl shadow-md card-hover cursor-pointer"
+                                     data-name="ឡោក ឡាណុន"
+                                     data-img="https://i.postimg.cc/3N8CrMSY/compressed-ឡោក_ឆាណុន.jpg"
+                                     data-expertise="Network & Software & ទិន្នន័យវត្តមាន"
+                                     data-telegram="https://t.me/Maanon_CH">
+                                    <img src="https://i.postimg.cc/3N8CrMSY/compressed-ឡោក_ឆាណុន.jpg" alt="ឡោក ឡាណុន" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto mb-4 object-cover ring-4 ring-secondary pointer-events-none">
+                                    <h4 class="text-base sm:text-lg font-bold text-primary-dark pointer-events-none">ឡោក ឡាណុន</h4>
+                                </div>
+                                <!-- Roeun Sreynet -->
+                                <div class="assistant-card bg-white text-center p-4 sm:p-6 rounded-xl shadow-md card-hover cursor-pointer"
+                                     data-name="រឿន ស្រីណែត"
+                                     data-img="https://i.postimg.cc/SRfTV75N/compressed-រឿន_ស្រីណែត.jpg"
+                                     data-expertise="ទិន្នន័យវត្តមាន & កិច្ចការរដ្ឋបាល & Network"
+                                     data-telegram="https://t.me/roeurnsreyneth">
+                                    <img src="https://i.postimg.cc/SRfTV75N/compressed-រឿន_ស្រីណែត.jpg" alt="រឿន ស្រីណែត" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto mb-4 object-cover ring-4 ring-secondary pointer-events-none">
+                                    <h4 class="text-base sm:text-lg font-bold text-primary-dark pointer-events-none">រឿន ស្រីណែត</h4>
+                                </div>
+                                 <!-- Pey Thavry -->
+                                <div class="assistant-card bg-white text-center p-4 sm:p-6 rounded-xl shadow-md card-hover cursor-pointer"
+                                     data-name="ប៉ី ថាវរី"
+                                     data-img="https://i.postimg.cc/hGRmPWv6/compressed-ប៉ី_ថាវរី.jpg"
+                                     data-expertise="ទិន្នន័យវត្តមាន & Network & Software"
+                                     data-telegram="https://t.me/Peythavry">
+                                    <img src="https://i.postimg.cc/hGRmPWv6/compressed-ប៉ី_ថាវរី.jpg" alt="ប៉ី ថាវរី" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto mb-4 object-cover ring-4 ring-secondary pointer-events-none">
+                                    <h4 class="text-base sm:text-lg font-bold text-primary-dark pointer-events-none">ប៉ី ថាវរី</h4>
+                                </div>
+                                 <!-- Soy Keomsodany -->
+                                <div class="assistant-card bg-white text-center p-4 sm:p-6 rounded-xl shadow-md card-hover cursor-pointer"
+                                     data-name="សយ គឹមសុដានី"
+                                     data-img="https://i.postimg.cc/VkwxKDQg/image.png"
+                                     data-expertise="ទិន្នន័យវត្តមាន & Network & Software"
+                                     data-telegram="https://t.me/Soykeomsodany0717978187">
+                                    <img src="https://i.postimg.cc/VkwxKDQg/image.png" alt="សយ គឹមសុដានី" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto mb-4 object-cover ring-4 ring-secondary pointer-events-none">
+                                    <h4 class="text-base sm:text-lg font-bold text-primary-dark pointer-events-none">សយ គឹមសុដានី</h4>
+                                </div>
+                                <!-- Hen Chanthai -->
+                                <div class="assistant-card bg-white text-center p-4 sm:p-6 rounded-xl shadow-md card-hover cursor-pointer"
+                                     data-name="ហឹន ចាន់ថៃ"
+                                     data-img="https://i.postimg.cc/hjLMkbB5/compressed-ហឹន_ចាន់ថៃ.jpg"
+                                     data-expertise="ទិន្នន័យវត្តមាន & Network"
+                                     data-telegram="https://t.me/CHANTHAI6435">
+                                    <img src="https://i.postimg.cc/hjLMkbB5/compressed-ហឹន_ចាន់ថៃ.jpg" alt="ហឹន ចាន់ថៃ" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full mx-auto mb-4 object-cover ring-4 ring-secondary pointer-events-none">
+                                    <h4 class="text-base sm:text-lg font-bold text-primary-dark pointer-events-none">ហឹន ចាន់ថៃ</h4>
                                 </div>
                             </div>
-                            <!-- Ly Mesa -->
-                             <div class="bg-white p-4 rounded-xl shadow-md flex items-center gap-4 card-hover">
-                                <img src="https://i.postimg.cc/Y94VPy2f/compressed-លី​_មេសា.jpg" alt="លី មេសា" class="w-16 h-16 rounded-full object-cover ring-4 ring-secondary">
-                                 <div>
-                                    <h4 class="text-base sm:text-lg font-bold text-primary-dark">លី មេសា</h4>
-                                    <p class="text-gray-500 text-xs sm:text-sm">Network & Software</p>
+
+                            <!-- General Members Section -->
+                            <div class="mt-16">
+                                <!-- Clickable Title -->
+                                <div id="toggle-general-members" class="text-center cursor-pointer group">
+                                    <hr class="animated-hr mb-8">
+                                    <h3 class="text-xl sm:text-2xl font-bold text-primary-dark inline-flex items-center group-hover:text-primary transition-colors">
+                                        ក្រុមការងារ IT SUPPORT
+                                        <i id="toggle-icon" class="fas fa-chevron-down ml-3 transition-transform duration-300"></i>
+                                    </h3>
                                 </div>
-                            </div>
-                            <!-- Lon Davith -->
-                             <div class="bg-white p-4 rounded-xl shadow-md flex items-center gap-4 card-hover">
-                                <img src="https://i.postimg.cc/nc1YWLLr/compressed-លន_ដាវីត.jpg" alt="លន ដាវីត" class="w-16 h-16 rounded-full object-cover ring-4 ring-secondary">
-                                 <div>
-                                    <h4 class="text-base sm:text-lg font-bold text-primary-dark">លន ដាវីត</h4>
-                                    <p class="text-gray-500 text-xs sm:text-sm">Developer & Software</p>
-                                </div>
-                            </div>
-                            <!-- Ly Nuphuong -->
-                             <div class="bg-white p-4 rounded-xl shadow-md flex items-center gap-4 card-hover">
-                                <img src="https://i.postimg.cc/QxggjkHQ/compressed-លី_នូភឿង.jpg" alt="លី នូភឿង" class="w-16 h-16 rounded-full object-cover ring-4 ring-secondary">
-                                 <div>
-                                    <h4 class="text-base sm:text-lg font-bold text-primary-dark">លី នូភឿង</h4>
-                                    <p class="text-gray-500 text-xs sm:text-sm">Network</p>
-                                </div>
-                            </div>
-                            <!-- Kim Sokdin -->
-                            <div class="bg-white p-4 rounded-xl shadow-md flex items-center gap-4 card-hover">
-                                <img src="https://i.postimg.cc/y8gh8yPg/compressed.jpg" alt="គឹម សុខឌីន" class="w-16 h-16 rounded-full object-cover ring-4 ring-secondary">
-                                <div>
-                                    <h4 class="text-base sm:text-lg font-bold text-primary-dark">គឹម សុខឌីន</h4>
-                                    <p class="text-gray-500 text-xs sm:text-sm">Network & Software & ជំនួយកិច្ចការរដ្ឋបាល</p>
-                                </div>
-                            </div>
-                            <!-- Kim Sreypov -->
-                            <div class="bg-white p-4 rounded-xl shadow-md flex items-center gap-4 card-hover">
-                                <img src="https://i.postimg.cc/wTB76xV7/compressed.jpg" alt="គីម ស្រីពៅ" class="w-16 h-16 rounded-full object-cover ring-4 ring-secondary">
-                                <div>
-                                    <h4 class="text-base sm:text-lg font-bold text-primary-dark">គីម ស្រីពៅ</h4>
-                                    <p class="text-gray-500 text-xs sm:text-sm">Network & ជំនួយកិច្ចការរដ្ឋបាល</p>
+
+                                <!-- Collapsible Grid for General Members -->
+                                <div id="general-members-grid" class="hidden max-w-xl mx-auto space-y-4 mt-8">
+                                    <!-- Kong Seat -->
+                                     <div class="bg-white p-4 rounded-xl shadow-md flex items-center gap-4 card-hover">
+                                        <img src="https://i.postimg.cc/HnMHLKVv/compressed.jpg" alt="គង់ ស៊ាត" class="w-16 h-16 rounded-full object-cover ring-4 ring-secondary">
+                                        <div>
+                                            <h4 class="text-base sm:text-lg font-bold text-primary-dark">គង់ ស៊ាត</h4>
+                                            <p class="text-gray-500 text-xs sm:text-sm">Network & Software</p>
+                                        </div>
+                                    </div>
+                                    <!-- Ly Mesa -->
+                                     <div class="bg-white p-4 rounded-xl shadow-md flex items-center gap-4 card-hover">
+                                        <img src="https://i.postimg.cc/Y94VPy2f/compressed-លី​_មេសា.jpg" alt="លី មេសា" class="w-16 h-16 rounded-full object-cover ring-4 ring-secondary">
+                                         <div>
+                                            <h4 class="text-base sm:text-lg font-bold text-primary-dark">លី មេសា</h4>
+                                            <p class="text-gray-500 text-xs sm:text-sm">Network & Software</p>
+                                        </div>
+                                    </div>
+                                    <!-- Lon Davith -->
+                                     <div class="bg-white p-4 rounded-xl shadow-md flex items-center gap-4 card-hover">
+                                        <img src="https://i.postimg.cc/nc1YWLLr/compressed-លន_ដាវីត.jpg" alt="លន ដាវីត" class="w-16 h-16 rounded-full object-cover ring-4 ring-secondary">
+                                         <div>
+                                            <h4 class="text-base sm:text-lg font-bold text-primary-dark">លន ដាវីត</h4>
+                                            <p class="text-gray-500 text-xs sm:text-sm">Developer & Software</p>
+                                        </div>
+                                    </div>
+                                    <!-- Ly Nuphuong -->
+                                     <div class="bg-white p-4 rounded-xl shadow-md flex items-center gap-4 card-hover">
+                                        <img src="https://i.postimg.cc/QxggjkHQ/compressed-លី_នូភឿង.jpg" alt="លី នូភឿង" class="w-16 h-16 rounded-full object-cover ring-4 ring-secondary">
+                                         <div>
+                                            <h4 class="text-base sm:text-lg font-bold text-primary-dark">លី នូភឿង</h4>
+                                            <p class="text-gray-500 text-xs sm:text-sm">Network</p>
+                                        </div>
+                                    </div>
+                                    <!-- Kim Sokdin -->
+                                    <div class="bg-white p-4 rounded-xl shadow-md flex items-center gap-4 card-hover">
+                                        <img src="https://i.postimg.cc/y8gh8yPg/compressed.jpg" alt="គឹម សុខឌីន" class="w-16 h-16 rounded-full object-cover ring-4 ring-secondary">
+                                        <div>
+                                            <h4 class="text-base sm:text-lg font-bold text-primary-dark">គឹម សុខឌីន</h4>
+                                            <p class="text-gray-500 text-xs sm:text-sm">Network & Software & ជំនួយកិច្ចការរដ្ឋបាល</p>
+                                        </div>
+                                    </div>
+                                    <!-- Kim Sreypov -->
+                                    <div class="bg-white p-4 rounded-xl shadow-md flex items-center gap-4 card-hover">
+                                        <img src="https://i.postimg.cc/wTB76xV7/compressed.jpg" alt="គីម ស្រីពៅ" class="w-16 h-16 rounded-full object-cover ring-4 ring-secondary">
+                                        <div>
+                                            <h4 class="text-base sm:text-lg font-bold text-primary-dark">គីម ស្រីពៅ</h4>
+                                            <p class="text-gray-500 text-xs sm:text-sm">Network & ជំនួយកិច្ចការរដ្ឋបាល</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -287,14 +415,16 @@
             </section>
 
             <!-- Contact Section -->
-            <section id="contact" class="py-12 sm:py-16">
-                <h2 class="text-2xl sm:text-3xl font-bold text-center mb-10 text-primary-dark">ទំនាក់ទំនងមកពួកយើង</h2>
-                <div class="max-w-xl mx-auto bg-white p-6 sm:p-8 rounded-xl shadow-lg">
-                    <div class="text-center text-gray-600">
-                        <p class="mb-4 text-lg">សម្រាប់​ព័ត៌មាន​បន្ថែម ឬ​ស្នើសុំ​ជំនួយ សូម​ទំនាក់ទំនង​តាម​រយៈ៖</p>
-                        <div class="space-y-3">
-                            <p class="text-lg"><strong><i class="fas fa-phone mr-2 text-primary"></i></strong> <a href="tel:090544452" class="text-primary hover:underline">090 5444 52</a></p>
-                            <p class="text-lg"><strong><i class="fas fa-envelope mr-2 text-primary"></i></strong> <a href="mailto:perdigitalindustry@gmail.com" class="text-primary hover:underline">perdigitalindustry@gmail.com</a></p>
+            <section id="contact" class="py-16 sm:py-20">
+                <div class="container mx-auto px-4">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-center mb-10 animated-gradient-text">ទំនាក់ទំនងមកពួកយើង</h2>
+                    <div class="max-w-xl mx-auto bg-white p-6 sm:p-8 rounded-xl shadow-lg">
+                        <div class="text-center text-gray-600">
+                            <p class="mb-6 text-lg">សម្រាប់​ព័ត៌មាន​បន្ថែម ឬ​ស្នើសុំ​ជំនួយ សូម​ទំនាក់ទំនង​តាម​រយៈ៖</p>
+                            <div class="space-y-4">
+                                <p class="text-lg"><strong><i class="fas fa-phone mr-2 text-primary"></i></strong> <a href="tel:090544452" class="text-primary hover:underline">090 5444 52</a></p>
+                                <p class="text-lg"><strong><i class="fas fa-envelope mr-2 text-primary"></i></strong> <a href="mailto:perdigitalindustry@gmail.com" class="text-primary hover:underline">perdigitalindustry@gmail.com</a></p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -307,13 +437,13 @@
         <main class="container mx-auto px-4 py-8">
             <section id="responsibilities-content" class="py-12 sm:py-16">
                 <div class="text-center mb-12">
-                    <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-primary-dark mb-4">អំពីទំនួលខុសត្រូវការងារ</h1>
-                    <p class="text-gray-600 max-w-3xl mx-auto md:text-lg">គ្រប់គ្រងកុំព្យូទ័រ អ៊ីនធឺណិត ក្នុងអគារ​DI សាលាDUC និងក្នុងបុរីចាស្មីន</p>
+                    <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 animate-fade-in-down animated-gradient-text">អំពីទំនួលខុសត្រូវការងារ</h1>
+                    <p class="text-gray-600 max-w-3xl mx-auto md:text-lg animate-fade-in-up">គ្រប់គ្រងកុំព្យូទ័រ អ៊ីនធឺណិត ក្នុងអគារ​DI សាលាDUC និងក្នុងបុរីចាស្មីន</p>
                 </div>
 
-                <div class="grid md:grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto">
+                <div class="grid md:grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto animate-fade-in-up-delay">
                     <!-- Technical Tasks Card -->
-                    <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg border-t-4 border-primary">
+                    <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg card-hover">
                         <h3 class="text-xl sm:text-2xl font-bold text-primary-dark mb-6 flex items-center"><i class="fas fa-cogs mr-3"></i>ការងារផ្នែកបច្ចេកទេស</h3>
                         <ul class="space-y-4 text-gray-700">
                             <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i><span>ត្រួតពិនិត្យមើលថែកុំព្យូទ័រជាប្រចាំ</span></li>
@@ -328,7 +458,7 @@
                     </div>
 
                     <!-- Admin Tasks Card -->
-                    <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg border-t-4 border-secondary">
+                    <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg card-hover">
                         <h3 class="text-xl sm:text-2xl font-bold text-primary-dark mb-6 flex items-center"><i class="fas fa-folder-open mr-3"></i>ផ្នែកការងាររដ្ឋបាល និងការងារផ្សេងៗ</h3>
                          <ul class="space-y-4 text-gray-700">
                             <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i><span>គ្រប់គ្រងទិន្នន័យវត្តមាន</span></li>
@@ -343,7 +473,7 @@
     </div>
 
     <!-- Member Detail Modal -->
-    <div id="member-modal" class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 z-50 hidden opacity-0">
+    <div id="member-modal" class="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-md flex items-center justify-center p-4 z-[60] hidden opacity-0">
         <div id="modal-content" class="bg-white rounded-2xl shadow-xl w-full max-w-md mx-auto text-center p-6 sm:p-8 relative transform scale-95">
             <!-- Close Button -->
             <button id="modal-close-btn" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 transition-colors">
@@ -354,7 +484,7 @@
             <h3 id="modal-name" class="text-2xl sm:text-3xl font-bold text-primary-dark mb-2"></h3>
             <p id="modal-expertise" class="text-gray-600 mb-6 text-sm sm:text-base"></p>
     
-            <a id="modal-telegram-link" href="#" target="_blank" class="inline-flex items-center justify-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-full transition duration-300 text-lg shadow-lg transform hover:scale-105 w-full sm:w-auto">
+            <a id="modal-telegram-link" href="#" target="_blank" class="inline-flex items-center justify-center bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 text-lg shadow-lg transform hover:scale-105 w-full sm:w-auto btn-shine">
                 <i class="fa-brands fa-telegram text-2xl mr-3"></i>
                 <span>ទាក់ទងតាម Telegram</span>
             </a>
@@ -363,7 +493,7 @@
 
 
     <!-- Footer -->
-    <footer class="bg-primary-dark text-white py-6">
+    <footer class="bg-primary-dark text-white py-6 bg-gradient-to-r from-primary-dark to-black">
         <div class="container mx-auto text-center px-4">
             <p class="text-sm">
                 <span class="md:hidden">&copy; IT SUPPORT ដឹកនាំដោយលោកគ្រូ ពៅ ដារ៉ូ || DI</span>
@@ -373,120 +503,182 @@
     </footer>
 
     <script>
-        // --- Page Switching Logic ---
-        const mainPage = document.getElementById('main-page');
-        const responsibilitiesPage = document.getElementById('responsibilities-page');
-        const mainNavLinks = document.querySelectorAll('.main-nav-link');
-        const responsibilitiesNav = document.getElementById('nav-responsibilities');
-        const mobileResponsibilitiesNav = document.getElementById('mobile-nav-responsibilities');
-        const logoLink = document.getElementById('logo-link');
+        document.addEventListener('DOMContentLoaded', () => {
 
-        function showPage(pageId) {
-            mainPage.classList.add('hidden');
-            responsibilitiesPage.classList.add('hidden');
-            document.getElementById(pageId).classList.remove('hidden');
-            window.scrollTo(0, 0); // Scroll to top on page change
-        }
+            // --- Page Switching Logic ---
+            const mainPage = document.getElementById('main-page');
+            const responsibilitiesPage = document.getElementById('responsibilities-page');
+            const mainNavLinks = document.querySelectorAll('.main-nav-link');
+            const responsibilitiesNav = document.getElementById('nav-responsibilities');
+            const mobileResponsibilitiesNav = document.getElementById('mobile-nav-responsibilities');
+            const logoLink = document.getElementById('logo-link');
 
-        responsibilitiesNav.addEventListener('click', (e) => {
-            e.preventDefault();
-            showPage('responsibilities-page');
-        });
-        mobileResponsibilitiesNav.addEventListener('click', (e) => {
-            e.preventDefault();
-            showPage('responsibilities-page');
-            mobileMenu.classList.add('hidden'); // Close mobile menu
-        });
+            function showPage(pageId) {
+                mainPage.classList.add('hidden');
+                responsibilitiesPage.classList.add('hidden');
+                document.getElementById(pageId).classList.remove('hidden');
+                window.scrollTo(0, 0); // Scroll to top on page change
+            }
 
-        mainNavLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                showPage('main-page');
+            responsibilitiesNav.addEventListener('click', (e) => {
+                e.preventDefault();
+                showPage('responsibilities-page');
             });
-        });
-        
-        logoLink.addEventListener('click', (e) => {
-             e.preventDefault();
-             showPage('main-page');
-             // Smooth scroll to top
-             document.getElementById('home').scrollIntoView({ behavior: 'smooth' });
-        });
+            mobileResponsibilitiesNav.addEventListener('click', (e) => {
+                e.preventDefault();
+                showPage('responsibilities-page');
+                mobileMenu.classList.add('hidden'); // Close mobile menu
+            });
 
-        // --- Original Scripts ---
-
-        // JavaScript for mobile menu toggle
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        // Close mobile menu when a link is clicked
-        const mobileMenuLinks = mobileMenu.getElementsByTagName('a');
-        for (let i = 0; i < mobileMenuLinks.length; i++) {
-            if(!mobileMenuLinks[i].id.includes('responsibilities')){
-                 mobileMenuLinks[i].addEventListener('click', () => {
-                    mobileMenu.classList.add('hidden');
+            mainNavLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    // Check if the link is for a section on the main page
+                    if (link.getAttribute('href').startsWith('#') && !link.id.includes('responsibilities')) {
+                        showPage('main-page');
+                        // Let the default anchor link behavior handle the scrolling
+                    }
                 });
-            }
-        }
-
-        // JavaScript for collapsible general members section
-        const toggleButton = document.getElementById('toggle-general-members');
-        const membersGrid = document.getElementById('general-members-grid');
-        const toggleIcon = document.getElementById('toggle-icon');
-
-        toggleButton.addEventListener('click', () => {
-            membersGrid.classList.toggle('hidden');
-            toggleIcon.classList.toggle('rotate-180');
-        });
-        
-        // JavaScript for Member Detail Modal
-        const modal = document.getElementById('member-modal');
-        const modalContent = document.getElementById('modal-content');
-        const modalCloseBtn = document.getElementById('modal-close-btn');
-        const modalImg = document.getElementById('modal-img');
-        const modalName = document.getElementById('modal-name');
-        const modalExpertise = document.getElementById('modal-expertise');
-        const modalTelegramLink = document.getElementById('modal-telegram-link');
-
-        const assistantCards = document.querySelectorAll('.assistant-card');
-
-        assistantCards.forEach(card => {
-            card.addEventListener('click', () => {
-                // Populate modal with data from the card
-                modalImg.src = card.dataset.img;
-                modalName.textContent = card.dataset.name;
-                modalExpertise.innerHTML = `<span class="font-semibold text-gray-800">អ្នកជំនាញ៖</span> ${card.dataset.expertise}`;
-                modalTelegramLink.href = card.dataset.telegram;
-
-                // Show the modal with animations
-                modal.classList.remove('hidden');
-                setTimeout(() => {
-                    modal.classList.remove('opacity-0');
-                    modalContent.classList.add('scale-100');
-                    modalContent.classList.remove('scale-95');
-                }, 10); // A small delay to allow CSS transitions to trigger
             });
-        });
-
-        function closeModal() {
-            modalContent.classList.remove('scale-100');
-            modalContent.classList.add('scale-95');
-            modal.classList.add('opacity-0');
             
-            setTimeout(() => {
-                modal.classList.add('hidden');
-            }, 300); // Match the duration of the transition
-        }
+            logoLink.addEventListener('click', (e) => {
+                 e.preventDefault();
+                 showPage('main-page');
+                 // Smooth scroll to top
+                 document.getElementById('home').scrollIntoView({ behavior: 'smooth' });
+            });
 
-        modalCloseBtn.addEventListener('click', closeModal);
+            // --- Mobile Menu Logic ---
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
 
-        // Close modal when clicking on the background overlay
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                closeModal();
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Close mobile menu when a link is clicked
+            const mobileMenuLinks = mobileMenu.getElementsByTagName('a');
+            for (let i = 0; i < mobileMenuLinks.length; i++) {
+                if(!mobileMenuLinks[i].id.includes('responsibilities')){
+                     mobileMenuLinks[i].addEventListener('click', () => {
+                        mobileMenu.classList.add('hidden');
+                    });
+                }
             }
+
+            // --- Collapsible General Members Logic ---
+            const toggleButton = document.getElementById('toggle-general-members');
+            const membersGrid = document.getElementById('general-members-grid');
+            const toggleIcon = document.getElementById('toggle-icon');
+
+            toggleButton.addEventListener('click', () => {
+                membersGrid.classList.toggle('hidden');
+                toggleIcon.classList.toggle('rotate-180');
+            });
+            
+            // --- Member Detail Modal Logic ---
+            const modal = document.getElementById('member-modal');
+            const modalContent = document.getElementById('modal-content');
+            const modalCloseBtn = document.getElementById('modal-close-btn');
+            const modalImg = document.getElementById('modal-img');
+            const modalName = document.getElementById('modal-name');
+            const modalExpertise = document.getElementById('modal-expertise');
+            const modalTelegramLink = document.getElementById('modal-telegram-link');
+
+            const allAssistantCards = document.querySelectorAll('.assistant-card');
+
+            allAssistantCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    modalImg.src = card.dataset.img;
+                    modalName.textContent = card.dataset.name;
+                    modalExpertise.innerHTML = `<span class="font-semibold text-gray-800">អ្នកជំនាញ៖</span> ${card.dataset.expertise}`;
+                    modalTelegramLink.href = card.dataset.telegram;
+                    modal.classList.remove('hidden');
+                    setTimeout(() => {
+                        modal.classList.remove('opacity-0');
+                        modalContent.classList.remove('scale-95');
+                        modalContent.classList.add('scale-100');
+                    }, 10);
+                });
+            });
+
+            function closeModal() {
+                modalContent.classList.remove('scale-100');
+                modalContent.classList.add('scale-95');
+                modal.classList.add('opacity-0');
+                setTimeout(() => modal.classList.add('hidden'), 300);
+            }
+
+            modalCloseBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeModal();
+            });
+            
+            // --- Digital Connector Line Effect Logic (Stable Curved Corner Path) ---
+            const container = document.getElementById('team-visual-container');
+            const managerCard = document.getElementById('manager-card').querySelector('img');
+            const hrPlaceholder = document.getElementById('hr-placeholder');
+            const assistantCards = document.querySelectorAll('.assistant-card');
+            const svg = document.getElementById('connector-svg');
+            const path = document.getElementById('connector-path');
+            
+            const drawLine = (assistantCard) => {
+                const containerRect = container.getBoundingClientRect();
+                const managerRect = managerCard.getBoundingClientRect();
+                const assistantRect = assistantCard.querySelector('img').getBoundingClientRect();
+                const hrRect = hrPlaceholder.getBoundingClientRect();
+
+                // Start point: Bottom-center of the manager's image
+                const startX = (managerRect.left + managerRect.width / 2) - containerRect.left;
+                const startY = managerRect.bottom - containerRect.top;
+                
+                // End point: Top-center of the assistant's image
+                const endX = (assistantRect.left + assistantRect.width / 2) - containerRect.left;
+                const endY = assistantRect.top - containerRect.top;
+
+                // Midpoint Y: Use the animated HR line as the perfect vertical position for the horizontal line
+                const midY = (hrRect.top + hrRect.height / 2) - containerRect.top;
+                
+                const cornerRadius = 20; // How rounded the corners are
+
+                // Build the path with curved corners (Arc command 'A')
+                // This creates a clean, right-angled path with nice rounded corners
+                const pathData = `
+                    M ${startX} ${startY} 
+                    V ${midY - cornerRadius}
+                    A ${cornerRadius} ${cornerRadius} 0 0 ${startX > endX ? 1 : 0} ${startX > endX ? startX - cornerRadius : startX + cornerRadius} ${midY}
+                    H ${endX > startX ? endX - cornerRadius : endX + cornerRadius}
+                    A ${cornerRadius} ${cornerRadius} 0 0 ${startX > endX ? 0 : 1} ${endX} ${midY + cornerRadius}
+                    V ${endY}
+                `;
+                
+                path.setAttribute('d', pathData);
+                svg.classList.remove('opacity-0');
+            };
+
+            const hideLine = () => {
+                svg.classList.add('opacity-0');
+            };
+            
+            assistantCards.forEach(card => {
+                let pressTimer;
+                // For Desktop
+                card.addEventListener('mouseenter', () => drawLine(card));
+                
+                // For Mobile (Hold to show, release to hide)
+                card.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    pressTimer = window.setTimeout(() => {
+                        drawLine(card);
+                    }, 200); // Hold for 200ms to trigger
+                });
+
+                card.addEventListener('touchend', () => {
+                    clearTimeout(pressTimer);
+                    hideLine();
+                });
+            });
+            
+            container.addEventListener('mouseleave', hideLine);
         });
 
     </script>
