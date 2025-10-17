@@ -575,7 +575,7 @@
                 toggleIcon.classList.toggle('rotate-180');
             });
             
-            // --- Member Detail Modal Logic ---
+            // --- Elements for Modal and Connector Line ---
             const modal = document.getElementById('member-modal');
             const modalContent = document.getElementById('modal-content');
             const modalCloseBtn = document.getElementById('modal-close-btn');
@@ -583,25 +583,30 @@
             const modalName = document.getElementById('modal-name');
             const modalExpertise = document.getElementById('modal-expertise');
             const modalTelegramLink = document.getElementById('modal-telegram-link');
+            
+            const container = document.getElementById('team-visual-container');
+            const managerCard = document.getElementById('manager-card').querySelector('img');
+            const hrPlaceholder = document.getElementById('hr-placeholder');
+            const assistantCards = document.querySelectorAll('.assistant-card');
+            const svg = document.getElementById('connector-svg');
+            const path = document.getElementById('connector-path');
 
-            const allAssistantCards = document.querySelectorAll('.assistant-card');
-
-            allAssistantCards.forEach(card => {
-                card.addEventListener('click', () => {
-                    modalImg.src = card.dataset.img;
-                    modalName.textContent = card.dataset.name;
-                    modalExpertise.innerHTML = `<span class="font-semibold text-gray-800">អ្នកជំនាញ៖</span> ${card.dataset.expertise}`;
-                    modalTelegramLink.href = card.dataset.telegram;
-                    modal.classList.remove('hidden');
-                    setTimeout(() => {
-                        modal.classList.remove('opacity-0');
-                        modalContent.classList.remove('scale-95');
-                        modalContent.classList.add('scale-100');
-                    }, 10);
-                });
-            });
+            // --- Functions for Modal ---
+            function openModal(card) {
+                modalImg.src = card.dataset.img;
+                modalName.textContent = card.dataset.name;
+                modalExpertise.innerHTML = `<span class="font-semibold text-gray-800">អ្នកជំនាញ៖</span> ${card.dataset.expertise}`;
+                modalTelegramLink.href = card.dataset.telegram;
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0');
+                    modalContent.classList.remove('scale-95');
+                    modalContent.classList.add('scale-100');
+                }, 10);
+            }
 
             function closeModal() {
+                hideLine(); // Hide line when modal closes
                 modalContent.classList.remove('scale-100');
                 modalContent.classList.add('scale-95');
                 modal.classList.add('opacity-0');
@@ -612,15 +617,8 @@
             modal.addEventListener('click', (e) => {
                 if (e.target === modal) closeModal();
             });
-            
-            // --- Digital Connector Line Effect Logic (Stable Curved Corner Path) ---
-            const container = document.getElementById('team-visual-container');
-            const managerCard = document.getElementById('manager-card').querySelector('img');
-            const hrPlaceholder = document.getElementById('hr-placeholder');
-            const assistantCards = document.querySelectorAll('.assistant-card');
-            const svg = document.getElementById('connector-svg');
-            const path = document.getElementById('connector-path');
-            
+
+            // --- Functions for Connector Line ---
             const drawLine = (assistantCard) => {
                 const containerRect = container.getBoundingClientRect();
                 const managerRect = managerCard.getBoundingClientRect();
@@ -641,7 +639,6 @@
                 const cornerRadius = 20; // How rounded the corners are
 
                 // Build the path with curved corners (Arc command 'A')
-                // This creates a clean, right-angled path with nice rounded corners
                 const pathData = `
                     M ${startX} ${startY} 
                     V ${midY - cornerRadius}
@@ -658,29 +655,32 @@
             const hideLine = () => {
                 svg.classList.add('opacity-0');
             };
-            
+
+            // --- Combined Event Listeners for Assistants ---
             assistantCards.forEach(card => {
-                let pressTimer;
-                // For Desktop
-                card.addEventListener('mouseenter', () => drawLine(card));
-                
-                // For Mobile (Hold to show, release to hide)
-                card.addEventListener('touchstart', (e) => {
-                    e.preventDefault();
-                    pressTimer = window.setTimeout(() => {
-                        drawLine(card);
-                    }, 200); // Hold for 200ms to trigger
+                // For both Desktop and Mobile: Click/Tap opens modal and shows line
+                card.addEventListener('click', () => {
+                    drawLine(card);
+                    openModal(card);
                 });
 
-                card.addEventListener('touchend', () => {
-                    clearTimeout(pressTimer);
-                    hideLine();
+                // For Desktop only: Hover shows line
+                card.addEventListener('mouseenter', () => {
+                    // We only want the hover effect if no modal is open
+                    if (modal.classList.contains('hidden')) {
+                        drawLine(card);
+                    }
                 });
             });
             
-            container.addEventListener('mouseleave', hideLine);
+            // For Desktop only: Hide line when mouse leaves the whole container
+            container.addEventListener('mouseleave', () => {
+                // We only want to hide the line if no modal is open
+                 if (modal.classList.contains('hidden')) {
+                    hideLine();
+                 }
+            });
         });
-
     </script>
 </body>
 </html>
