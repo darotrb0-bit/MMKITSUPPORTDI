@@ -16,595 +16,702 @@
         /* Custom styles */
         body {
             font-family: 'Kantumruy Pro', 'Inter', sans-serif;
-            background-color: #f8fafc;
+            background-color: #f0f2f5; /* Soft gray background */
+            overflow-x: hidden;
         }
-        /* Style for smooth scrolling */
+
+        /* Smooth Scrolling */
         html {
             scroll-behavior: smooth;
         }
 
-        /* Enhanced Card Hover Effect */
-        .card-hover {
-            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-            border: 1px solid #e5e7eb;
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
         }
-        .card-hover:hover {
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Glassmorphism Card Style */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 20px -5px rgb(0 0 0 / 0.1), 0 8px 8px -6px rgb(0 0 0 / 0.1);
-            border-color: #005B96; /* primary */
+            box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.15);
+            border-color: rgba(0, 91, 150, 0.3); /* primary color hint */
         }
-        
-        /* Button Shine Effect */
+
+        /* Animated Background Gradient */
+        .animated-bg {
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Text Gradient Animation */
+        .text-gradient {
+            background: linear-gradient(to right, #005B96, #00C6FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* Button Hover Shine */
         .btn-shine {
             position: relative;
             overflow: hidden;
         }
-        .btn-shine::before {
+        .btn-shine::after {
             content: '';
             position: absolute;
             top: 0;
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-            transition: left 0.7s ease;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: 0.5s;
         }
-        .btn-shine:hover::before {
+        .btn-shine:hover::after {
             left: 100%;
         }
 
-        /* Animations for Reveal on Scroll */
+        /* Reveal on Scroll Animation */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            transition: all 0.8s ease-out;
         }
-        .reveal.revealed {
+        .reveal.active {
             opacity: 1;
             transform: translateY(0);
         }
-        
-        /* Animated Gradient Text for Titles */
-        .animated-gradient-text {
-            background: linear-gradient(90deg, #011F4B, #005B96, #6497B1, #011F4B);
-            background-size: 250% auto;
-            color: #000;
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: text-shine 8s linear infinite;
+
+        /* Active Nav Link */
+        .nav-link.active {
+            color: #00C6FF; /* Highlight color */
+            font-weight: 600;
         }
-        @keyframes text-shine {
-            to {
-                background-position: -250% center;
-            }
+
+        /* Mobile Menu Animation */
+        #mobile-menu {
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
         }
-        
-        header {
-            box-shadow: 0 4px 14px 0 rgba(1, 31, 75, 0.1);
-        }
-        
-        /* Active Nav Link Style */
-        .active-nav-link {
-            color: #B3CDE0 !important; /* secondary color */
+        #mobile-menu.open {
+            max-height: 400px; /* Adjust based on content */
+            opacity: 1;
         }
     </style>
     <script>
-      // Custom Tailwind theme configuration
       tailwind.config = {
         theme: {
           extend: {
             colors: {
               primary: {
                 DEFAULT: '#005B96',
-                light: '#6497B1',
-                dark: '#011F4B',
+                light: '#337ab7',
+                dark: '#003f6b',
               },
-              secondary: '#B3CDE0',
-              lightbg: '#F0F4F8',
+              secondary: '#6497B1',
+              accent: '#00C6FF', 
+            },
+            fontFamily: {
+                sans: ['Kantumruy Pro', 'Inter', 'sans-serif'],
             }
           }
         }
       }
     </script>
 </head>
-<body class="bg-slate-50 text-gray-800">
+<body class="text-gray-800">
 
-    <!-- Header & Navigation -->
-    <header class="bg-primary-dark text-white sticky top-0 z-50 backdrop-blur-sm bg-opacity-90 border-b border-primary/20">
-        <div class="container mx-auto px-4 lg:px-8 py-4 flex justify-between items-center">
-            <div class="text-xl md:text-2xl font-bold tracking-wider">
-                <a href="#" class="nav-link" data-page="main-page"><i class="fas fa-shield-halved mr-2"></i>ឧស្សាហកម្មឌីជីថល</a>
+    <!-- Navigation Bar -->
+    <nav class="fixed w-full z-50 top-0 transition-all duration-300 bg-white/90 backdrop-blur-md shadow-sm" id="navbar">
+        <div class="container mx-auto px-4 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <a href="#" class="text-2xl font-bold text-primary flex items-center gap-2 nav-link-item" data-target="home">
+                    <i class="fas fa-shield-halved text-accent"></i>
+                    <span>ឧស្សាហកម្មឌីជីថល</span>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#home" class="nav-link text-gray-600 hover:text-primary transition font-medium" data-target="home">ទំព័រដើម</a>
+                    <a href="#" class="nav-link text-gray-600 hover:text-primary transition font-medium" data-target="responsibilities">ទំនួលខុសត្រូវ</a>
+                    <a href="#" class="nav-link text-gray-600 hover:text-primary transition font-medium" data-target="roles">តួនាទី</a>
+                    <a href="#services" class="nav-link text-gray-600 hover:text-primary transition font-medium" data-target="services">សេវាកម្ម</a>
+                    <a href="#team" class="nav-link text-gray-600 hover:text-primary transition font-medium" data-target="team">ក្រុមការងារ</a>
+                    <a href="#contact" class="px-5 py-2 rounded-full bg-primary text-white font-medium hover:bg-primary-dark transition shadow-lg hover:shadow-primary/30 btn-shine nav-link-item" data-target="contact">ទំនាក់ទំនង</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-600 hover:text-primary focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
             </div>
-            <!-- Mobile Menu Button -->
-            <button id="mobile-menu-button" class="md:hidden p-2 rounded-md hover:bg-primary focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-                <i class="fas fa-bars h-6 w-6"></i>
-            </button>
-            <!-- Desktop Navigation -->
-            <nav class="hidden md:flex space-x-8 items-center text-base">
-                <a href="#home" class="nav-link hover:text-secondary transition duration-300" data-page="main-page">ទំព័រដើម</a>
-                <a href="#" class="nav-link hover:text-secondary transition duration-300" data-page="responsibilities-page">ទំនួលខុសត្រូវ</a>
-                <a href="#" class="nav-link hover:text-secondary transition duration-300" data-page="roles-page">តួនាទី</a>
-                <a href="#services" class="nav-link hover:text-secondary transition duration-300" data-page="main-page">សេវាកម្ម</a>
-                <a href="#team" class="nav-link hover:text-secondary transition duration-300" data-page="main-page">សមាជិកក្រុម</a>
-                <a href="#contact" class="bg-primary hover:bg-primary-light text-white font-bold py-2 px-5 rounded-full transition duration-300 shadow-md nav-link" data-page="main-page">ទំនាក់ទំនង</a>
-            </nav>
         </div>
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden px-4 pt-2 pb-4">
-             <a href="#home" class="nav-link block py-2 text-white hover:bg-primary rounded-md px-3" data-page="main-page">ទំព័រដើម</a>
-            <a href="#" class="nav-link block py-2 text-white hover:bg-primary rounded-md px-3" data-page="responsibilities-page">ទំនួលខុសត្រូវ</a>
-            <a href="#" class="nav-link block py-2 text-white hover:bg-primary rounded-md px-3" data-page="roles-page">តួនាទី</a>
-            <a href="#services" class="nav-link block py-2 text-white hover:bg-primary rounded-md px-3" data-page="main-page">សេវាកម្ម</a>
-            <a href="#team" class="nav-link block py-2 text-white hover:bg-primary rounded-md px-3" data-page="main-page">សមាជិកក្រុម</a>
-            <a href="#contact" class="nav-link block py-2 text-white hover:bg-primary rounded-md px-3" data-page="main-page">ទំនាក់ទំនង</a>
-        </div>
-    </header>
 
-    <!-- Main Page Content -->
-    <div id="main-page" class="page-content">
-        <main>
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="md:hidden bg-white border-t border-gray-100 shadow-lg">
+            <div class="flex flex-col px-4 py-4 space-y-4">
+                <a href="#home" class="mobile-link text-gray-600 hover:text-primary font-medium" data-target="home">ទំព័រដើម</a>
+                <a href="#" class="mobile-link text-gray-600 hover:text-primary font-medium" data-target="responsibilities">ទំនួលខុសត្រូវ</a>
+                <a href="#" class="mobile-link text-gray-600 hover:text-primary font-medium" data-target="roles">តួនាទី</a>
+                <a href="#services" class="mobile-link text-gray-600 hover:text-primary font-medium" data-target="services">សេវាកម្ម</a>
+                <a href="#team" class="mobile-link text-gray-600 hover:text-primary font-medium" data-target="team">ក្រុមការងារ</a>
+                <a href="#contact" class="mobile-link text-primary font-medium" data-target="contact">ទំនាក់ទំនង</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <div id="content-container" class="pt-16">
+        
+        <!-- Home Page View -->
+        <div id="home-view" class="page-view">
             <!-- Hero Section -->
-            <section id="home" class="text-center py-20 md:py-32 bg-slate-100">
-                <div class="container mx-auto px-4 lg:px-8">
-                    <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-primary-dark mb-4 leading-tight">សូមស្វាគមន៍មកកាន់ក្រុមការងារ IT SUPPORT</h1>
-                    <p class="text-lg md:text-xl text-gray-600 mb-4">គ្រប់គ្រងដោយលោកគ្រូ <span class="font-bold text-primary">ពៅ ដារ៉ូ</span></p>
-                    <p class="text-gray-500 max-w-2xl mx-auto mb-8 text-base md:text-lg">ដោះស្រាយបញ្ហាបច្ចេកវិទ្យា គ្រប់គ្រងកុំព្យូទ័រ អ៊ីនធឺណិត ក្នុងអគារ​DI សាលាDUC និងក្នុងបុរីចាស្មីន។</p>
-                    <a href="#contact" class="bg-gradient-to-r from-primary to-primary-light hover:from-primary-dark hover:to-primary text-white font-bold py-3 px-8 rounded-full transition duration-300 text-lg shadow-lg transform hover:scale-105 btn-shine">ស្នើសុំជំនួយ</a>
+            <section id="home" class="relative min-h-[90vh] flex items-center justify-center text-center overflow-hidden">
+                <!-- Animated Background -->
+                <div class="absolute inset-0 animated-bg opacity-10"></div>
+                <div class="absolute inset-0 bg-gradient-to-b from-transparent to-white"></div>
+                
+                <div class="relative z-10 container mx-auto px-4">
+                    <div class="animate-fade-in-up">
+                        <span class="inline-block py-1 px-3 rounded-full bg-blue-50 text-primary text-sm font-semibold mb-4 border border-blue-100">IT Support Solutions</span>
+                        <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 text-gray-900 leading-tight">
+                            សូមស្វាគមន៍មកកាន់ <br/>
+                            <span class="text-gradient">ក្រុមការងារ IT SUPPORT</span>
+                        </h1>
+                        <p class="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">
+                            ដោះស្រាយបញ្ហាបច្ចេកវិទ្យា គ្រប់គ្រងកុំព្យូទ័រ និងប្រព័ន្ធអ៊ីនធឺណិតប្រកបដោយទំនុកចិត្ត និងប្រសិទ្ធភាពខ្ពស់។
+                        </p>
+                        <div class="flex flex-col sm:flex-row justify-center gap-4">
+                            <a href="#contact" class="px-8 py-4 rounded-full bg-primary text-white font-bold text-lg shadow-xl hover:shadow-primary/40 hover:-translate-y-1 transition btn-shine">
+                                ស្នើសុំជំនួយឥឡូវនេះ
+                            </a>
+                            <a href="#services" class="px-8 py-4 rounded-full bg-white text-gray-700 font-bold text-lg shadow-md hover:shadow-lg border border-gray-200 hover:-translate-y-1 transition">
+                                ស្វែងយល់បន្ថែម
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </section>
 
             <!-- Services Section -->
-            <section id="services" class="py-16 sm:py-24 reveal">
-                <div class="container mx-auto px-4 lg:px-8">
-                    <h2 class="text-3xl sm:text-4xl font-bold text-center mb-16 animated-gradient-text">សេវាកម្មរបស់យើង</h2>
-                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <div class="bg-white p-8 rounded-2xl shadow-lg card-hover text-center">
-                            <div class="flex-shrink-0 bg-gradient-to-br from-secondary to-primary-light text-white rounded-full w-20 h-20 flex items-center justify-center mb-6 mx-auto">
-                                <i class="fa-solid fa-computer text-4xl"></i>
+            <section id="services" class="py-20 bg-white">
+                <div class="container mx-auto px-4">
+                    <div class="text-center mb-16 reveal">
+                        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">សេវាកម្មរបស់យើង</h2>
+                        <div class="w-20 h-1 bg-primary mx-auto rounded-full"></div>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <!-- Service 1 -->
+                        <div class="glass-card p-8 rounded-3xl text-center reveal delay-100">
+                            <div class="w-16 h-16 mx-auto bg-blue-50 rounded-2xl flex items-center justify-center mb-6 text-primary text-3xl">
+                                <i class="fas fa-desktop"></i>
                             </div>
-                            <div>
-                                <h3 class="text-xl font-semibold mb-3 text-primary-dark">ដំឡើង និងជួសជុលកុំព្យូទ័រ</h3>
-                                <p class="text-gray-600">សេវាកម្មដំឡើង កំណត់ និងជួសជុលបញ្ហា Hardware និង Software គ្រប់ប្រភេទ។</p>
-                            </div>
+                            <h3 class="text-xl font-bold mb-3 text-gray-900">ជួសជុលកុំព្យូទ័រ</h3>
+                            <p class="text-gray-500 leading-relaxed">
+                                សេវាកម្មដំឡើង កំណត់ និងជួសជុលបញ្ហា Hardware និង Software គ្រប់ប្រភេទជូនលោកអ្នក។
+                            </p>
                         </div>
-                        <div class="bg-white p-8 rounded-2xl shadow-lg card-hover text-center">
-                             <div class="flex-shrink-0 bg-gradient-to-br from-secondary to-primary-light text-white rounded-full w-20 h-20 flex items-center justify-center mb-6 mx-auto">
-                                <i class="fa-solid fa-wifi text-4xl"></i>
+
+                        <!-- Service 2 -->
+                        <div class="glass-card p-8 rounded-3xl text-center reveal delay-200">
+                            <div class="w-16 h-16 mx-auto bg-blue-50 rounded-2xl flex items-center justify-center mb-6 text-primary text-3xl">
+                                <i class="fas fa-wifi"></i>
                             </div>
-                            <div>
-                                <h3 class="text-xl font-semibold mb-3 text-primary-dark">ដោះស្រាយបញ្ហាបណ្តាញ</h3>
-                                <p class="text-gray-600">ដំឡើងប្រព័ន្ធបណ្តាញ Internet, Wi-Fi និងដោះស្រាយបញ្ហាបណ្តាញយឺត ឬដាច់។</p>
-                            </div>
+                            <h3 class="text-xl font-bold mb-3 text-gray-900">បណ្តាញ Network</h3>
+                            <p class="text-gray-500 leading-relaxed">
+                                ដំឡើង និងដោះស្រាយបញ្ហាប្រព័ន្ធបណ្តាញ Internet, Wi-Fi ឱ្យដំណើរការរលូន។
+                            </p>
                         </div>
-                        <div class="bg-white p-8 rounded-2xl shadow-lg card-hover text-center">
-                            <div class="flex-shrink-0 bg-gradient-to-br from-secondary to-primary-light text-white rounded-full w-20 h-20 flex items-center justify-center mb-6 mx-auto">
-                                <i class="fa-solid fa-download text-4xl"></i>
+
+                        <!-- Service 3 -->
+                        <div class="glass-card p-8 rounded-3xl text-center reveal delay-300">
+                            <div class="w-16 h-16 mx-auto bg-blue-50 rounded-2xl flex items-center justify-center mb-6 text-primary text-3xl">
+                                <i class="fas fa-code"></i>
                             </div>
-                            <div>
-                                <h3 class="text-xl font-semibold mb-3 text-primary-dark">ដំឡើងកម្មវិធី (Software)</h3>
-                                <p class="text-gray-600">ដំឡើងកម្មវិធីផ្សេងៗតាមតម្រូវការ រួមទាំងប្រព័ន្ធប្រតិបត្តិការ Windows។</p>
-                            </div>
+                            <h3 class="text-xl font-bold mb-3 text-gray-900">ដំឡើងកម្មវិធី</h3>
+                            <p class="text-gray-500 leading-relaxed">
+                                ដំឡើងកម្មវិធីកុំព្យូទ័រ និងប្រព័ន្ធប្រតិបត្តិការ Windows តាមតម្រូវការការងារ។
+                            </p>
                         </div>
                     </div>
                 </div>
             </section>
 
             <!-- Team Section -->
-            <section id="team" class="py-16 sm:py-24 bg-slate-100 reveal">
-                 <div class="container mx-auto px-4 lg:px-8">
-                    <div class="text-center mb-16">
-                        <h2 class="text-3xl sm:text-4xl font-bold animated-gradient-text">ជួបជាមួយក្រុមការងារយើង</h2>
-                        <p class="text-gray-600 mt-4 text-lg">ក្រុម​អ្នក​ជំនាញ​ដែល​ត្រៀម​ខ្លួន​ជា​និច្ច​ដើម្បី​ជួយ​អ្នក</p>
+            <section id="team" class="py-20 bg-gray-50 relative overflow-hidden">
+                <!-- Decorative blobs -->
+                <div class="absolute top-0 right-0 w-64 h-64 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
+                <div class="absolute top-0 left-0 w-64 h-64 bg-purple-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
+
+                <div class="container mx-auto px-4 relative z-10">
+                    <div class="text-center mb-16 reveal">
+                        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">ក្រុមការងាររបស់យើង</h2>
+                        <div class="w-20 h-1 bg-primary mx-auto rounded-full mb-4"></div>
+                        <p class="text-gray-500">អ្នកជំនាញដែលត្រៀមខ្លួនជាស្រេចដើម្បីជួយអ្នក</p>
                     </div>
-                    
-                    <!-- Org Chart Structure -->
-                    <div class="relative flex flex-col items-center">
-                        <!-- Manager Node -->
-                        <div class="z-10 mb-8">
-                            <div class="bg-white p-6 rounded-2xl shadow-xl border-t-4 border-primary text-center card-hover transform transition hover:-translate-y-1">
-                                <div class="relative inline-block">
-                                    <img class="w-32 h-32 rounded-full object-cover border-4 border-white shadow-md" src="https://i.postimg.cc/hPcbKwwn/photo-2025-09-27-15-47-14.jpg" alt="Pov Daro">
-                                    <span class="absolute bottom-0 right-0 bg-primary text-white text-xs px-2 py-1 rounded-full shadow-sm border border-white">Manager</span>
+
+                    <!-- Organizational Chart Style Layout -->
+                    <div class="flex flex-col items-center">
+                        
+                        <!-- Manager -->
+                        <div class="mb-12 reveal">
+                            <div class="bg-white p-1 rounded-full shadow-xl border-4 border-white relative group cursor-pointer">
+                                <div class="absolute inset-0 rounded-full bg-gradient-to-r from-primary to-accent opacity-0 group-hover:opacity-100 transition duration-300"></div>
+                                <img src="https://i.postimg.cc/hPcbKwwn/photo-2025-09-27-15-47-14.jpg" alt="Pov Daro" class="w-40 h-40 rounded-full object-cover relative z-10 border-4 border-white">
+                                <div class="absolute -bottom-3 left-1/2 transform -translate-x-1/2 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full shadow-md z-20">
+                                    Team Leader
                                 </div>
-                                <h3 class="mt-4 text-xl font-bold text-primary-dark">ពៅ ដារ៉ូ</h3>
-                                <p class="text-sm text-gray-500">អ្នកគ្រប់គ្រង</p>
+                            </div>
+                            <div class="text-center mt-4">
+                                <h3 class="text-xl font-bold text-gray-900">លោកគ្រូ ពៅ ដារ៉ូ</h3>
+                                <p class="text-sm text-primary font-medium">អ្នកគ្រប់គ្រង</p>
                             </div>
                         </div>
-                        
-                        <!-- Connector Line (Vertical) -->
-                        <div class="w-px h-8 bg-gray-300 -mt-8 mb-8"></div>
-                        
-                        <!-- Connector Line (Horizontal for Team) -->
-                        <div class="w-3/4 h-px bg-gray-300 mb-8 hidden md:block"></div>
 
+                        <!-- Connecting Line (Vertical) -->
+                        <div class="h-12 w-0.5 bg-gray-300 -mt-4 mb-8 reveal"></div>
+                        
                         <!-- Team Grid -->
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full max-w-7xl px-4">
-                             <!-- Assistant 1 -->
-                             <div class="bg-white p-5 rounded-xl shadow-md hover:shadow-lg transition-shadow border-l-4 border-secondary flex items-center gap-4">
-                                <img src="https://i.postimg.cc/1zdLNBxk/compressed-ប៊ន_ចន្ថា.jpg" alt="ប៊ន ចន្ថា" class="w-16 h-16 rounded-full object-cover border-2 border-gray-100">
-                                <div>
-                                    <h4 class="font-bold text-gray-800">ប៊ន ចន្ថា</h4>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 w-full max-w-6xl px-4">
+                            
+                            <!-- Member Card Template -->
+                            <div class="glass-card p-6 rounded-2xl text-center reveal">
+                                <div class="relative inline-block mb-4">
+                                    <img src="https://i.postimg.cc/1zdLNBxk/compressed-ប៊ន_ចន្ថា.jpg" alt="Bon Chantha" class="w-20 h-20 rounded-full object-cover border-2 border-white shadow-md">
                                 </div>
+                                <h4 class="font-bold text-gray-800 text-sm sm:text-base">ប៊ន ចន្ថា</h4>
                             </div>
-                            <!-- Assistant 2 -->
-                            <div class="bg-white p-5 rounded-xl shadow-md hover:shadow-lg transition-shadow border-l-4 border-secondary flex items-center gap-4">
-                                <img src="https://i.postimg.cc/3N8CrMSY/compressed-ឡោក_ឆាណុន.jpg" alt="ឡោក ឡាណុន" class="w-16 h-16 rounded-full object-cover border-2 border-gray-100">
-                                <div>
-                                    <h4 class="font-bold text-gray-800">ឡោក ឡាណុន</h4>
+
+                            <div class="glass-card p-6 rounded-2xl text-center reveal delay-100">
+                                <div class="relative inline-block mb-4">
+                                    <img src="https://i.postimg.cc/3N8CrMSY/compressed-ឡោក_ឆាណុន.jpg" alt="Laok Lanon" class="w-20 h-20 rounded-full object-cover border-2 border-white shadow-md">
                                 </div>
+                                <h4 class="font-bold text-gray-800 text-sm sm:text-base">ឡោក ឡាណុន</h4>
                             </div>
-                            <!-- Assistant 3 -->
-                            <div class="bg-white p-5 rounded-xl shadow-md hover:shadow-lg transition-shadow border-l-4 border-secondary flex items-center gap-4">
-                                <img src="https://i.postimg.cc/SRfTV75N/compressed-រឿន_ស្រីណែត.jpg" alt="រឿន ស្រីណែត" class="w-16 h-16 rounded-full object-cover border-2 border-gray-100">
-                                <div>
-                                    <h4 class="font-bold text-gray-800">រឿន ស្រីណែត</h4>
+
+                            <div class="glass-card p-6 rounded-2xl text-center reveal delay-200">
+                                <div class="relative inline-block mb-4">
+                                    <img src="https://i.postimg.cc/SRfTV75N/compressed-រឿន_ស្រីណែត.jpg" alt="Roeun Sreynet" class="w-20 h-20 rounded-full object-cover border-2 border-white shadow-md">
                                 </div>
+                                <h4 class="font-bold text-gray-800 text-sm sm:text-base">រឿន ស្រីណែត</h4>
                             </div>
-                            <!-- Assistant 4 -->
-                            <div class="bg-white p-5 rounded-xl shadow-md hover:shadow-lg transition-shadow border-l-4 border-secondary flex items-center gap-4">
-                                <img src="https://i.postimg.cc/hGRmPWv6/compressed-ប៉ី_ថាវរី.jpg" alt="ប៉ី ថាវរី" class="w-16 h-16 rounded-full object-cover border-2 border-gray-100">
-                                <div>
-                                    <h4 class="font-bold text-gray-800">ប៉ី ថាវរី</h4>
+
+                            <div class="glass-card p-6 rounded-2xl text-center reveal delay-300">
+                                <div class="relative inline-block mb-4">
+                                    <img src="https://i.postimg.cc/hGRmPWv6/compressed-ប៉ី_ថាវរី.jpg" alt="Pey Thavry" class="w-20 h-20 rounded-full object-cover border-2 border-white shadow-md">
                                 </div>
+                                <h4 class="font-bold text-gray-800 text-sm sm:text-base">ប៉ី ថាវរី</h4>
                             </div>
-                            <!-- Assistant 5 -->
-                             <div class="bg-white p-5 rounded-xl shadow-md hover:shadow-lg transition-shadow border-l-4 border-secondary flex items-center gap-4">
-                                <img src="https://i.postimg.cc/VkwxKDQg/image.png" alt="សយ គឹមសុដានី" class="w-16 h-16 rounded-full object-cover border-2 border-gray-100">
-                                <div>
-                                    <h4 class="font-bold text-gray-800">សយ គឹមសុដានី</h4>
+
+                            <div class="glass-card p-6 rounded-2xl text-center reveal">
+                                <div class="relative inline-block mb-4">
+                                    <img src="https://i.postimg.cc/VkwxKDQg/image.png" alt="Soy Keomsodany" class="w-20 h-20 rounded-full object-cover border-2 border-white shadow-md">
                                 </div>
+                                <h4 class="font-bold text-gray-800 text-sm sm:text-base">សយ គឹមសុដានី</h4>
                             </div>
-                            <!-- Assistant 6 -->
-                             <div class="bg-white p-5 rounded-xl shadow-md hover:shadow-lg transition-shadow border-l-4 border-secondary flex items-center gap-4">
-                                <img src="https://i.postimg.cc/hjLMkbB5/compressed-ហឹន_ចាន់ថៃ.jpg" alt="ហឹន ចាន់ថៃ" class="w-16 h-16 rounded-full object-cover border-2 border-gray-100">
-                                <div>
-                                    <h4 class="font-bold text-gray-800">ហឹន ចាន់ថៃ</h4>
+
+                            <div class="glass-card p-6 rounded-2xl text-center reveal delay-100">
+                                <div class="relative inline-block mb-4">
+                                    <img src="https://i.postimg.cc/hjLMkbB5/compressed-ហឹន_ចាន់ថៃ.jpg" alt="Hen Chanthai" class="w-20 h-20 rounded-full object-cover border-2 border-white shadow-md">
                                 </div>
+                                <h4 class="font-bold text-gray-800 text-sm sm:text-base">ហឹន ចាន់ថៃ</h4>
                             </div>
-                             <!-- General Member 1 -->
-                             <div class="bg-white p-5 rounded-xl shadow-md hover:shadow-lg transition-shadow border-l-4 border-gray-300 flex items-center gap-4">
-                                <img src="https://i.postimg.cc/HnMHLKVv/compressed.jpg" alt="គង់ ស៊ាត" class="w-16 h-16 rounded-full object-cover border-2 border-gray-100">
-                                <div>
-                                    <h4 class="font-bold text-gray-800">គង់ ស៊ាត</h4>
+                             <div class="glass-card p-6 rounded-2xl text-center reveal delay-200">
+                                <div class="relative inline-block mb-4">
+                                    <img src="https://i.postimg.cc/HnMHLKVv/compressed.jpg" alt="Kong Seat" class="w-20 h-20 rounded-full object-cover border-2 border-white shadow-md">
                                 </div>
+                                <h4 class="font-bold text-gray-800 text-sm sm:text-base">គង់ ស៊ាត</h4>
                             </div>
-                            <!-- General Member 2 -->
-                             <div class="bg-white p-5 rounded-xl shadow-md hover:shadow-lg transition-shadow border-l-4 border-gray-300 flex items-center gap-4">
-                                <img src="https://i.postimg.cc/Y94VPy2f/compressed-លី​_មេសា.jpg" alt="លី មេសា" class="w-16 h-16 rounded-full object-cover border-2 border-gray-100">
-                                <div>
-                                    <h4 class="font-bold text-gray-800">លី មេសា</h4>
+                             <div class="glass-card p-6 rounded-2xl text-center reveal delay-300">
+                                <div class="relative inline-block mb-4">
+                                    <img src="https://i.postimg.cc/Y94VPy2f/compressed-លី​_មេសា.jpg" alt="Ly Mesa" class="w-20 h-20 rounded-full object-cover border-2 border-white shadow-md">
                                 </div>
+                                <h4 class="font-bold text-gray-800 text-sm sm:text-base">លី មេសា</h4>
                             </div>
-                             <!-- General Member 3 -->
-                             <div class="bg-white p-5 rounded-xl shadow-md hover:shadow-lg transition-shadow border-l-4 border-gray-300 flex items-center gap-4">
-                                <img src="https://i.postimg.cc/nc1YWLLr/compressed-លន_ដាវីត.jpg" alt="លន ដាវីត" class="w-16 h-16 rounded-full object-cover border-2 border-gray-100">
-                                <div>
-                                    <h4 class="font-bold text-gray-800">លន ដាវីត</h4>
+                             <div class="glass-card p-6 rounded-2xl text-center reveal">
+                                <div class="relative inline-block mb-4">
+                                    <img src="https://i.postimg.cc/nc1YWLLr/compressed-លន_ដាវីត.jpg" alt="Lon Davith" class="w-20 h-20 rounded-full object-cover border-2 border-white shadow-md">
                                 </div>
+                                <h4 class="font-bold text-gray-800 text-sm sm:text-base">លន ដាវីត</h4>
                             </div>
-                             <!-- General Member 4 -->
-                             <div class="bg-white p-5 rounded-xl shadow-md hover:shadow-lg transition-shadow border-l-4 border-gray-300 flex items-center gap-4">
-                                <img src="https://i.postimg.cc/QxggjkHQ/compressed-លី_នូភឿង.jpg" alt="លី នូភឿង" class="w-16 h-16 rounded-full object-cover border-2 border-gray-100">
-                                <div>
-                                    <h4 class="font-bold text-gray-800">លី នូភឿង</h4>
+                             <div class="glass-card p-6 rounded-2xl text-center reveal delay-100">
+                                <div class="relative inline-block mb-4">
+                                    <img src="https://i.postimg.cc/QxggjkHQ/compressed-លី_នូភឿង.jpg" alt="Ly Nuphuong" class="w-20 h-20 rounded-full object-cover border-2 border-white shadow-md">
                                 </div>
+                                <h4 class="font-bold text-gray-800 text-sm sm:text-base">លី នូភឿង</h4>
                             </div>
-                             <!-- General Member 5 -->
-                             <div class="bg-white p-5 rounded-xl shadow-md hover:shadow-lg transition-shadow border-l-4 border-gray-300 flex items-center gap-4">
-                                <img src="https://i.postimg.cc/y8gh8yPg/compressed.jpg" alt="គឹម សុខឌីន" class="w-16 h-16 rounded-full object-cover border-2 border-gray-100">
-                                <div>
-                                    <h4 class="font-bold text-gray-800">គឹម សុខឌីន</h4>
+                             <div class="glass-card p-6 rounded-2xl text-center reveal delay-200">
+                                <div class="relative inline-block mb-4">
+                                    <img src="https://i.postimg.cc/y8gh8yPg/compressed.jpg" alt="Kim Sokdin" class="w-20 h-20 rounded-full object-cover border-2 border-white shadow-md">
                                 </div>
+                                <h4 class="font-bold text-gray-800 text-sm sm:text-base">គឹម សុខឌីន</h4>
                             </div>
-                             <!-- General Member 6 -->
-                             <div class="bg-white p-5 rounded-xl shadow-md hover:shadow-lg transition-shadow border-l-4 border-gray-300 flex items-center gap-4">
-                                <img src="https://i.postimg.cc/wTB76xV7/compressed.jpg" alt="គីម ស្រីពៅ" class="w-16 h-16 rounded-full object-cover border-2 border-gray-100">
-                                <div>
-                                    <h4 class="font-bold text-gray-800">គីម ស្រីពៅ</h4>
+                             <div class="glass-card p-6 rounded-2xl text-center reveal delay-300">
+                                <div class="relative inline-block mb-4">
+                                    <img src="https://i.postimg.cc/wTB76xV7/compressed.jpg" alt="Kim Sreypov" class="w-20 h-20 rounded-full object-cover border-2 border-white shadow-md">
                                 </div>
+                                <h4 class="font-bold text-gray-800 text-sm sm:text-base">គីម ស្រីពៅ</h4>
                             </div>
-                             <!-- General Member 7 -->
-                             <div class="bg-white p-5 rounded-xl shadow-md hover:shadow-lg transition-shadow border-l-4 border-gray-300 flex items-center gap-4">
-                                <img src="https://i.postimg.cc/Zqn6PGjH/compressed-ស៊ឺន_គឹមសាន.jpg" alt="ស៊ឺន គឹមសាន" class="w-16 h-16 rounded-full object-cover border-2 border-gray-100">
-                                <div>
-                                    <h4 class="font-bold text-gray-800">ស៊ឺន គឹមសាន</h4>
+                             <div class="glass-card p-6 rounded-2xl text-center reveal">
+                                <div class="relative inline-block mb-4">
+                                    <img src="https://i.postimg.cc/Zqn6PGjH/compressed-ស៊ឺន_គឹមសាន.jpg" alt="Sern Kimsan" class="w-20 h-20 rounded-full object-cover border-2 border-white shadow-md">
                                 </div>
+                                <h4 class="font-bold text-gray-800 text-sm sm:text-base">ស៊ឺន គឹមសាន</h4>
                             </div>
-                             <!-- General Member 8 -->
-                             <div class="bg-white p-5 rounded-xl shadow-md hover:shadow-lg transition-shadow border-l-4 border-gray-300 flex items-center gap-4">
-                                <img src="https://i.postimg.cc/0jwTzXL2/compressed-អ៊ី_ចាន់ថុល.jpg" alt="អ៊ី ចាន់ថុល" class="w-16 h-16 rounded-full object-cover border-2 border-gray-100">
-                                <div>
-                                    <h4 class="font-bold text-gray-800">អ៊ី ចាន់ថុល</h4>
+                             <div class="glass-card p-6 rounded-2xl text-center reveal delay-100">
+                                <div class="relative inline-block mb-4">
+                                    <img src="https://i.postimg.cc/0jwTzXL2/compressed-អ៊ី_ចាន់ថុល.jpg" alt="Yi Chanthol" class="w-20 h-20 rounded-full object-cover border-2 border-white shadow-md">
                                 </div>
+                                <h4 class="font-bold text-gray-800 text-sm sm:text-base">អ៊ី ចាន់ថុល</h4>
                             </div>
+
                         </div>
                     </div>
                 </div>
             </section>
 
             <!-- Contact Section -->
-            <section id="contact" class="py-16 sm:py-24 reveal">
-                <div class="container mx-auto px-4 lg:px-8">
-                    <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12 animated-gradient-text">ទំនាក់ទំនងមកពួកយើង</h2>
-                    <div class="max-w-xl mx-auto bg-white p-8 rounded-2xl shadow-lg">
-                        <div class="text-center text-gray-600">
-                            <p class="mb-6 text-lg">សម្រាប់​ព័ត៌មាន​បន្ថែម ឬ​ស្នើសុំ​ជំនួយ សូម​ទំនាក់ទំនង​តាម​រយៈ៖</p>
-                            <div class="space-y-6">
-                                <p class="text-xl"><strong><i class="fas fa-phone mr-3 text-primary"></i></strong> <a href="tel:090544452" class="text-primary-dark hover:underline">090 5444 52</a></p>
-                                <p class="text-xl"><strong><i class="fas fa-envelope mr-3 text-primary"></i></strong> <a href="mailto:perdigitalindustry@gmail.com" class="text-primary-dark hover:underline">perdigitalindustry@gmail.com</a></p>
-                                <div>
-                                    <a href="https://t.me/ITSupportKR" target="_blank" class="inline-flex items-center justify-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-8 rounded-full transition duration-300 text-lg shadow-lg transform hover:scale-105 btn-shine">
-                                        <i class="fa-brands fa-telegram text-2xl mr-3"></i>
-                                        <span>ក្រុមការងារពិសេស Support 7/24</span>
-                                    </a>
+            <section id="contact" class="py-20 bg-white">
+                <div class="container mx-auto px-4 max-w-4xl">
+                    <div class="text-center mb-16 reveal">
+                        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">ទំនាក់ទំនងមកពួកយើង</h2>
+                        <div class="w-20 h-1 bg-primary mx-auto rounded-full"></div>
+                    </div>
+
+                    <div class="glass-card p-8 md:p-12 rounded-3xl shadow-xl border border-gray-100 text-center reveal">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-8">ត្រូវការជំនួយបន្ថែម?</h3>
+                        <div class="flex flex-col md:flex-row justify-center items-center gap-8 mb-10">
+                            <div class="flex items-center gap-3 group cursor-pointer">
+                                <div class="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <div class="text-left">
+                                    <p class="text-sm text-gray-500">ទូរស័ព្ទ</p>
+                                    <p class="font-bold text-gray-800 text-lg">090 5444 52</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3 group cursor-pointer">
+                                <div class="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div class="text-left">
+                                    <p class="text-sm text-gray-500">អ៊ីមែល</p>
+                                    <p class="font-bold text-gray-800 text-lg">perdigitalindustry@gmail.com</p>
                                 </div>
                             </div>
                         </div>
+                        
+                        <a href="https://t.me/ITSupportKR" target="_blank" class="inline-flex items-center gap-3 px-8 py-4 bg-[#0088cc] hover:bg-[#0077b5] text-white rounded-full font-bold text-lg shadow-lg hover:shadow-blue-200 hover:-translate-y-1 transition btn-shine w-full md:w-auto justify-center">
+                            <i class="fab fa-telegram text-2xl"></i>
+                            <span>ក្រុមការងារពិសេស Support 7/24</span>
+                        </a>
                     </div>
                 </div>
             </section>
-        </main>
-    </div>
-    
-    <!-- Responsibilities Page Content -->
-    <div id="responsibilities-page" class="page-content hidden">
-        <main class="container mx-auto px-4 lg:px-8 py-8">
-            <section class="py-12 sm:py-16">
-                <div class="text-center mb-12">
-                    <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 animated-gradient-text">អំពីទំនួលខុសត្រូវការងារ</h1>
-                    <p class="text-gray-600 max-w-3xl mx-auto md:text-lg">គ្រប់គ្រងកុំព្យូទ័រ អ៊ីនធឺណិត ក្នុងអគារ​DI សាលាDUC និងក្នុងបុរីចាស្មីន</p>
+        </div>
+
+        <!-- Responsibilities Page View -->
+        <div id="responsibilities-view" class="page-view hidden">
+             <section class="py-20 bg-slate-50 min-h-screen">
+                <div class="container mx-auto px-4">
+                     <div class="text-center mb-16 animate-fade-in-up">
+                        <h1 class="text-3xl md:text-5xl font-bold text-gray-900 mb-4">អំពីទំនួលខុសត្រូវការងារ</h1>
+                        <p class="text-gray-600 text-lg max-w-2xl mx-auto">ការទទួលខុសត្រូវចម្បងក្នុងការគ្រប់គ្រងប្រព័ន្ធបច្ចេកវិទ្យានៅក្នុងស្ថាប័ន</p>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                        <!-- Technical Card -->
+                        <div class="glass-card p-8 rounded-3xl border-t-4 border-primary animate-fade-in-up delay-100">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-primary text-2xl">
+                                    <i class="fas fa-cogs"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold text-gray-900">ការងារផ្នែកបច្ចេកទេស</h3>
+                            </div>
+                            <ul class="space-y-4">
+                                <li class="flex items-start gap-3 text-gray-600">
+                                    <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                    <span>ត្រួតពិនិត្យមើលថែកុំព្យូទ័រ និងឧបករណ៍អេឡិចត្រូនិចជាប្រចាំ</span>
+                                </li>
+                                 <li class="flex items-start gap-3 text-gray-600">
+                                    <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                    <span>តម្លើងនិងជួសជួលកុំព្យូទ័រមានបញ្ហា</span>
+                                </li>
+                                <li class="flex items-start gap-3 text-gray-600">
+                                    <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                    <span>រៀបចំប្រព័ន្ធអ៊ីនធឺណិត និងតភ្ជាប់បណ្ដាញ WIFI</span>
+                                </li>
+                                <li class="flex items-start gap-3 text-gray-600">
+                                    <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                    <span>តម្លើងកម្មវិធីកុំព្យូទ័រ និង Setup OS</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Admin Card -->
+                         <div class="glass-card p-8 rounded-3xl border-t-4 border-secondary animate-fade-in-up delay-200">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="w-12 h-12 rounded-xl bg-teal-50 flex items-center justify-center text-teal-600 text-2xl">
+                                    <i class="fas fa-folder-open"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold text-gray-900">ការងាររដ្ឋបាល</h3>
+                            </div>
+                            <ul class="space-y-4">
+                                <li class="flex items-start gap-3 text-gray-600">
+                                    <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                    <span>គ្រប់គ្រងទិន្នន័យវត្តមាន និងធ្វើបច្ចុប្បន្នភាពបញ្ជីឈ្មោះ</span>
+                                </li>
+                                <li class="flex items-start gap-3 text-gray-600">
+                                    <i class="fas fa-check-circle text-green-500 mt-1"></i>
+                                    <span>អនុវត្តន៍ច្បាប់វិន័យការងារបុគ្គលិក</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-                <div class="grid md:grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto">
-                    <div class="bg-white p-8 rounded-2xl shadow-lg card-hover">
-                        <h3 class="text-2xl font-bold text-primary-dark mb-6 flex items-center"><i class="fas fa-cogs mr-4 text-primary"></i>ការងារផ្នែកបច្ចេកទេស</h3>
-                        <ul class="space-y-4 text-gray-700 text-lg">
-                            <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i><span>ត្រួតពិនិត្យមើលថែកុំព្យូទ័រជាប្រចាំ</span></li>
-                            <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i><span>ត្រួតពិនិត្យមើលថែអ៊ីនធឺណិត និងឧបករណ៍អេឡិចត្រូនិកជាប្រចាំ</span></li>
-                            <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i><span>តម្លើងនិងជួសជួលកុំព្យូទ័រ</span></li>
-                            <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i><span>រៀបចំប្រព័ន្ធអ៊ីនធឺណិតថ្មី និងតភ្ជាប់បណ្ដាញ</span></li>
-                            <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i><span>រៀបចំប្រព័ន្ធ WIFI</span></li>
-                            <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i><span>តម្លើងកម្មវិធីកុំព្យូទ័រ</span></li>
-                            <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i><span>Setup OS</span></li>
-                            <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i><span>បង្កើតប្រព័ន្ធគ្រប់គ្រងទិន្នន័យការងារផ្សេងៗ</span></li>
-                        </ul>
-                    </div>
-                    <div class="bg-white p-8 rounded-2xl shadow-lg card-hover">
-                        <h3 class="text-2xl font-bold text-primary-dark mb-6 flex items-center"><i class="fas fa-folder-open mr-4 text-primary"></i>ផ្នែកការងាររដ្ឋបាល និងការងារផ្សេងៗ</h3>
-                         <ul class="space-y-4 text-gray-700 text-lg">
-                            <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i><span>គ្រប់គ្រងទិន្នន័យវត្តមាន</span></li>
-                            <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i><span>ធ្វើបច្ចុប្បន្នភាពបញ្ជីឈ្មោះ</span></li>
-                            <li class="flex items-start"><i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i><span>អនុវត្តន៍ច្បាប់វិន័យការងារ</span></li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-        </main>
-    </div>
+             </section>
+        </div>
 
-    <!-- Roles Page Content -->
-    <div id="roles-page" class="page-content hidden">
-        <main class="container mx-auto px-4 lg:px-8 py-8">
-            <section class="py-12 sm:py-16">
-                <div class="text-center mb-16">
-                    <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 animated-gradient-text">តួនាទីត្រូវទទួលបន្ទុក</h1>
-                </div>
+        <!-- Roles Page View -->
+        <div id="roles-view" class="page-view hidden">
+            <section class="py-20 bg-white min-h-screen">
+                <div class="container mx-auto px-4">
+                    <div class="text-center mb-16 animate-fade-in-up">
+                        <h1 class="text-3xl md:text-5xl font-bold text-gray-900 mb-4">រចនាសម្ព័ន្ធតួនាទី</h1>
+                        <p class="text-gray-600 text-lg">ការបែងចែកភារកិច្ច និងការទទួលខុសត្រូវតាមផ្នែក</p>
+                    </div>
 
-                <div class="space-y-16">
-                    <!-- Technical Section -->
-                    <div class="bg-white rounded-3xl shadow-lg overflow-hidden border border-gray-100">
-                        <div class="bg-primary-dark text-white p-6 text-center">
-                            <h2 class="text-2xl sm:text-3xl font-bold">ផ្នែក 'បច្ចេកទេស'</h2>
-                        </div>
-                        <div class="p-8">
-                            <div class="mb-10">
-                                <h3 class="text-lg font-semibold text-primary mb-6 border-b pb-2">អ្នកទទួលខុសត្រូវការងារគោល</h3>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                                    <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl hover:bg-blue-50 transition-colors">
-                                        <img src="https://i.postimg.cc/SRfTV75N/compressed-រឿន_ស្រីណែត.jpg" class="w-16 h-16 rounded-full object-cover border-2 border-white shadow-sm">
-                                        <span class="font-bold text-gray-800">រឿន ស្រីណែត</span>
+                    <div class="max-w-6xl mx-auto space-y-12">
+                        
+                        <!-- Section: Technical -->
+                        <div class="animate-fade-in-up delay-100">
+                            <div class="flex items-center gap-4 mb-6">
+                                <h2 class="text-2xl font-bold text-gray-800">ផ្នែក បច្ចេកទេស</h2>
+                                <div class="h-px bg-gray-200 flex-grow"></div>
+                            </div>
+                            
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <!-- Primary Responsibility -->
+                                <div class="bg-blue-50/50 p-6 rounded-2xl border border-blue-100">
+                                    <h3 class="text-sm font-bold text-primary uppercase tracking-wider mb-4">អ្នកទទួលខុសត្រូវការងារគោល</h3>
+                                    <div class="flex flex-wrap gap-3">
+                                        <span class="px-4 py-2 bg-white rounded-full shadow-sm text-gray-700 font-medium">រឿន ស្រីណែត</span>
+                                        <span class="px-4 py-2 bg-white rounded-full shadow-sm text-gray-700 font-medium">សយ គឹមសុដានី</span>
+                                        <span class="px-4 py-2 bg-white rounded-full shadow-sm text-gray-700 font-medium">ឡោក ឡាណុន</span>
                                     </div>
-                                    <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl hover:bg-blue-50 transition-colors">
-                                        <img src="https://i.postimg.cc/VkwxKDQg/image.png" class="w-16 h-16 rounded-full object-cover border-2 border-white shadow-sm">
-                                        <span class="font-bold text-gray-800">សយ គឹមសុដានី</span>
-                                    </div>
-                                    <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl hover:bg-blue-50 transition-colors">
-                                        <img src="https://i.postimg.cc/3N8CrMSY/compressed-ឡោក_ឆាណុន.jpg" class="w-16 h-16 rounded-full object-cover border-2 border-white shadow-sm">
-                                        <span class="font-bold text-gray-800">ឡោក ឡាណុន</span>
+                                </div>
+                                <!-- Secondary Responsibility -->
+                                <div class="bg-gray-50 p-6 rounded-2xl border border-gray-100">
+                                    <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4">អ្នកទទួលខុសត្រូវការងាររង</h3>
+                                    <div class="flex flex-wrap gap-3">
+                                        <span class="px-4 py-2 bg-white rounded-full shadow-sm text-gray-600">ប៊ន ចន្ថា</span>
+                                        <span class="px-4 py-2 bg-white rounded-full shadow-sm text-gray-600">គង់ ស៊ាត</span>
+                                        <span class="px-4 py-2 bg-white rounded-full shadow-sm text-gray-600">ហឹន ចាន់ថៃ</span>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+
+                        <!-- Section: App Dev -->
+                        <div class="animate-fade-in-up delay-200">
+                            <div class="flex items-center gap-4 mb-6">
+                                <h2 class="text-2xl font-bold text-gray-800">ផ្នែក អភិវឌ្ឍន៍កម្មវិធី</h2>
+                                <div class="h-px bg-gray-200 flex-grow"></div>
+                            </div>
+                            
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="bg-blue-50/50 p-6 rounded-2xl border border-blue-100">
+                                    <h3 class="text-sm font-bold text-primary uppercase tracking-wider mb-4">អ្នកទទួលខុសត្រូវការងារគោល</h3>
+                                    <div class="flex flex-wrap gap-3">
+                                        <span class="px-4 py-2 bg-white rounded-full shadow-sm text-gray-700 font-medium">ប៊ន ចន្ថា</span>
+                                        <span class="px-4 py-2 bg-white rounded-full shadow-sm text-gray-700 font-medium">ហឿង ជុងយាន</span>
+                                        <span class="px-4 py-2 bg-white rounded-full shadow-sm text-gray-700 font-medium">លន ដាវីត</span>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 p-6 rounded-2xl border border-gray-100">
+                                    <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4">អ្នកទទួលខុសត្រូវការងាររង</h3>
+                                    <div class="flex flex-wrap gap-3">
+                                        <span class="px-4 py-2 bg-white rounded-full shadow-sm text-gray-600">រិន សុថាត់</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section: Hardware/Software & Admin -->
+                        <div class="grid md:grid-cols-2 gap-8 animate-fade-in-up delay-300">
+                            <!-- Hardware & Software -->
                             <div>
-                                <h3 class="text-lg font-semibold text-gray-500 mb-6 border-b pb-2">អ្នកទទួលខុសត្រូវការងាររង</h3>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                                    <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors opacity-80">
-                                        <img src="https://i.postimg.cc/1zdLNBxk/compressed-ប៊ន_ចន្ថា.jpg" class="w-14 h-14 rounded-full object-cover border-2 border-white shadow-sm grayscale-[0.3]">
-                                        <span class="font-medium text-gray-700">ប៊ន ចន្ថា</span>
+                                <div class="flex items-center gap-4 mb-6">
+                                    <h2 class="text-xl font-bold text-gray-800">ផ្នែក Hardware & Software</h2>
+                                    <div class="h-px bg-gray-200 flex-grow"></div>
+                                </div>
+                                <div class="space-y-4">
+                                    <div class="bg-blue-50/50 p-5 rounded-2xl border border-blue-100">
+                                        <h3 class="text-xs font-bold text-primary uppercase mb-3">គោល</h3>
+                                        <div class="flex flex-wrap gap-2">
+                                            <span class="px-3 py-1.5 bg-white rounded-lg shadow-sm text-sm text-gray-700 font-medium">គង់ ស៊ាត</span>
+                                            <span class="px-3 py-1.5 bg-white rounded-lg shadow-sm text-sm text-gray-700 font-medium">លី មេសា</span>
+                                        </div>
                                     </div>
-                                    <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors opacity-80">
-                                        <img src="https://i.postimg.cc/HnMHLKVv/compressed.jpg" class="w-14 h-14 rounded-full object-cover border-2 border-white shadow-sm grayscale-[0.3]">
-                                        <span class="font-medium text-gray-700">គង់ ស៊ាត</span>
-                                    </div>
-                                    <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors opacity-80">
-                                        <img src="https://i.postimg.cc/hjLMkbB5/compressed-ហឹន_ចាន់ថៃ.jpg" class="w-14 h-14 rounded-full object-cover border-2 border-white shadow-sm grayscale-[0.3]">
-                                        <span class="font-medium text-gray-700">ហឹន ចាន់ថៃ</span>
+                                    <div class="bg-gray-50 p-5 rounded-2xl border border-gray-100">
+                                        <h3 class="text-xs font-bold text-gray-500 uppercase mb-3">រង</h3>
+                                        <span class="px-3 py-1.5 bg-white rounded-lg shadow-sm text-sm text-gray-600">ស៊ឺន គឹមសាន</span>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <!-- App Dev Section -->
-                    <div class="bg-white rounded-3xl shadow-lg overflow-hidden border border-gray-100">
-                        <div class="bg-primary-dark text-white p-6 text-center">
-                            <h2 class="text-2xl sm:text-3xl font-bold">ផ្នែក 'អភិវឌ្ឍន៍កម្មវិធី'</h2>
-                        </div>
-                        <div class="p-8">
-                            <div class="mb-10">
-                                <h3 class="text-lg font-semibold text-primary mb-6 border-b pb-2">អ្នកទទួលខុសត្រូវការងារគោល</h3>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                                    <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl hover:bg-blue-50 transition-colors">
-                                        <img src="https://i.postimg.cc/1zdLNBxk/compressed-ប៊ន_ចន្ថា.jpg" class="w-16 h-16 rounded-full object-cover border-2 border-white shadow-sm">
-                                        <span class="font-bold text-gray-800">ប៊ន ចន្ថា</span>
-                                    </div>
-                                    <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl hover:bg-blue-50 transition-colors">
-                                        <img src="https://placehold.co/100x100/E2E8F0/475569?text=HJ" class="w-16 h-16 rounded-full object-cover border-2 border-white shadow-sm">
-                                        <span class="font-bold text-gray-800">ហឿង ជុងយាន</span>
-                                    </div>
-                                    <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl hover:bg-blue-50 transition-colors">
-                                        <img src="https://i.postimg.cc/nc1YWLLr/compressed-លន_ដាវីត.jpg" class="w-16 h-16 rounded-full object-cover border-2 border-white shadow-sm">
-                                        <span class="font-bold text-gray-800">លន ដាវីត</span>
-                                    </div>
-                                </div>
-                            </div>
+                            <!-- Admin -->
                             <div>
-                                <h3 class="text-lg font-semibold text-gray-500 mb-6 border-b pb-2">អ្នកទទួលខុសត្រូវការងាររង</h3>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                                     <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors opacity-80">
-                                        <img src="https://placehold.co/100x100/E2E8F0/475569?text=RS" class="w-14 h-14 rounded-full object-cover border-2 border-white shadow-sm grayscale-[0.3]">
-                                        <span class="font-medium text-gray-700">រិន សុថាត់</span>
+                                <div class="flex items-center gap-4 mb-6">
+                                    <h2 class="text-xl font-bold text-gray-800">ផ្នែក កិច្ចការរដ្ឋបាល</h2>
+                                    <div class="h-px bg-gray-200 flex-grow"></div>
+                                </div>
+                                <div class="space-y-4">
+                                    <div class="bg-blue-50/50 p-5 rounded-2xl border border-blue-100">
+                                        <h3 class="text-xs font-bold text-primary uppercase mb-3">គោល</h3>
+                                        <span class="px-3 py-1.5 bg-white rounded-lg shadow-sm text-sm text-gray-700 font-medium">ស៊ឺន គឹមសាន</span>
+                                    </div>
+                                    <div class="bg-gray-50 p-5 rounded-2xl border border-gray-100">
+                                        <h3 class="text-xs font-bold text-gray-500 uppercase mb-3">រង</h3>
+                                        <span class="px-3 py-1.5 bg-white rounded-lg shadow-sm text-sm text-gray-600">គីម ស្រីពៅ</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Hardware & Software Section -->
-                     <div class="bg-white rounded-3xl shadow-lg overflow-hidden border border-gray-100">
-                        <div class="bg-primary-dark text-white p-6 text-center">
-                            <h2 class="text-2xl sm:text-3xl font-bold">ផ្នែក 'Hardware & Software'</h2>
-                        </div>
-                        <div class="p-8">
-                            <div class="mb-10">
-                                <h3 class="text-lg font-semibold text-primary mb-6 border-b pb-2">អ្នកទទួលខុសត្រូវការងារគោល</h3>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                    <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl hover:bg-blue-50 transition-colors">
-                                        <img src="https://i.postimg.cc/HnMHLKVv/compressed.jpg" class="w-16 h-16 rounded-full object-cover border-2 border-white shadow-sm">
-                                        <span class="font-bold text-gray-800">គង់ ស៊ាត</span>
-                                    </div>
-                                    <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl hover:bg-blue-50 transition-colors">
-                                        <img src="https://i.postimg.cc/Y94VPy2f/compressed-លី​_មេសា.jpg" class="w-16 h-16 rounded-full object-cover border-2 border-white shadow-sm">
-                                        <span class="font-bold text-gray-800">លី មេសា</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-500 mb-6 border-b pb-2">អ្នកទទួលខុសត្រូវការងាររង</h3>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                     <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors opacity-80">
-                                        <img src="https://i.postimg.cc/Zqn6PGjH/compressed-ស៊ឺន_គឹមសាន.jpg" class="w-14 h-14 rounded-full object-cover border-2 border-white shadow-sm grayscale-[0.3]">
-                                        <span class="font-medium text-gray-700">ស៊ឺន គឹមសាន</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
-
-                    <!-- Admin Section -->
-                    <div class="bg-white rounded-3xl shadow-lg overflow-hidden border border-gray-100">
-                        <div class="bg-primary-dark text-white p-6 text-center">
-                            <h2 class="text-2xl sm:text-3xl font-bold">ផ្នែក 'កិច្ចការរដ្ឋបាល'</h2>
-                        </div>
-                        <div class="p-8">
-                            <div class="mb-10">
-                                <h3 class="text-lg font-semibold text-primary mb-6 border-b pb-2">អ្នកទទួលខុសត្រូវការងារគោល</h3>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                    <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl hover:bg-blue-50 transition-colors">
-                                        <img src="https://i.postimg.cc/Zqn6PGjH/compressed-ស៊ឺន_គឹមសាន.jpg" class="w-16 h-16 rounded-full object-cover border-2 border-white shadow-sm">
-                                        <span class="font-bold text-gray-800">ស៊ឺន គឹមសាន</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-500 mb-6 border-b pb-2">អ្នកទទួលខុសត្រូវការងាររង</h3>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                    <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors opacity-80">
-                                        <img src="https://i.postimg.cc/wTB76xV7/compressed.jpg" class="w-14 h-14 rounded-full object-cover border-2 border-white shadow-sm grayscale-[0.3]">
-                                        <span class="font-medium text-gray-700">គីម ស្រីពៅ</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             </section>
-        </main>
+        </div>
+
     </div>
 
     <!-- Footer -->
-    <footer class="bg-primary-dark text-white py-8 bg-gradient-to-r from-primary-dark to-black">
-        <div class="container mx-auto text-center px-4 lg:px-8">
-            <p class="text-base">
-                <span class="md:hidden">&copy; IT SUPPORT ដឹកនាំដោយលោកគ្រូ ពៅ ដារ៉ូ || DI</span>
-                <span class="hidden md:inline">&copy; 2025 ក្រុមការងារ IT SUPPORT ដឹកនាំដោយលោកគ្រូ ពៅ ដារ៉ូ  || រក្សាសិទ្ធិគ្រប់យ៉ាង DI</span>
+    <footer class="bg-white border-t border-gray-200 pt-12 pb-8 mt-12">
+        <div class="container mx-auto px-4 text-center">
+            <div class="mb-8">
+                 <a href="#" class="text-2xl font-bold text-primary inline-flex items-center gap-2">
+                    <i class="fas fa-shield-halved"></i>
+                    <span>ឧស្សាហកម្មឌីជីថល</span>
+                </a>
+            </div>
+            <p class="text-gray-500 text-sm">
+                &copy; 2025 ក្រុមការងារ IT SUPPORT ដឹកនាំដោយលោកគ្រូ ពៅ ដារ៉ូ។ រក្សាសិទ្ធិគ្រប់យ៉ាង។
             </p>
         </div>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // --- Page Elements ---
-            const allPages = document.querySelectorAll('.page-content');
+            // Navigation Logic
+            const navLinks = document.querySelectorAll('.nav-link, .mobile-link');
+            const views = document.querySelectorAll('.page-view');
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
             const mobileMenu = document.getElementById('mobile-menu');
-            const allNavLinks = document.querySelectorAll('.nav-link');
+            const logoLink = document.querySelector('.nav-link-item[data-target="home"]');
 
-            // --- Page Switching Logic ---
-            function showPage(pageId) {
-                allPages.forEach(page => page.classList.add('hidden'));
-                const pageToShow = document.getElementById(pageId);
-                if(pageToShow) {
-                    pageToShow.classList.remove('hidden');
+            // Function to switch views
+            function switchView(targetId) {
+                // Hide all views
+                views.forEach(view => {
+                    view.classList.add('hidden');
+                });
+
+                // Show target view
+                const targetView = document.getElementById(`${targetId}-view`);
+                if (targetView) {
+                    targetView.classList.remove('hidden');
+                    // Scroll to top
+                    window.scrollTo(0, 0);
+                } else {
+                     // If target is a section on home page (services, team, contact)
+                     document.getElementById('home-view').classList.remove('hidden');
+                     const section = document.getElementById(targetId);
+                     if(section) {
+                         section.scrollIntoView({ behavior: 'smooth' });
+                     }
                 }
-                window.scrollTo(0, 0);
 
-                // Update active nav link
-                allNavLinks.forEach(link => link.classList.remove('active-nav-link'));
-                document.querySelectorAll(`.nav-link[data-page="${pageId}"]`).forEach(l => l.classList.add('active-nav-link'));
-                 if(pageId === 'main-page'){
-                     const mainPageHomeLink = document.querySelector('.nav-link[href="#home"]');
-                     if(mainPageHomeLink) mainPageHomeLink.classList.add('active-nav-link');
-                 }
+                // Update active state for desktop nav
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    if(link.dataset.target === targetId) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+
+                // Close mobile menu
+                mobileMenu.classList.remove('open');
             }
 
-            allNavLinks.forEach(link => {
+            // Event Listeners for Links
+            navLinks.forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
-                    const pageId = link.dataset.page;
-                    showPage(pageId);
-                    
-                    const targetId = link.getAttribute('href');
-                    if (pageId === 'main-page' && targetId && targetId.startsWith('#')) {
-                         setTimeout(() => {
-                            const targetElement = document.querySelector(targetId);
-                            if (targetElement) {
-                                targetElement.scrollIntoView({ behavior: 'smooth' });
-                            }
-                        }, 50);
-                    }
-                    mobileMenu.classList.add('hidden');
+                    const target = link.dataset.target;
+                    switchView(target);
                 });
             });
 
-            // --- Mobile Menu Toggle ---
-            document.getElementById('mobile-menu-button').addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
+             // Logo Click
+             if(logoLink){
+                logoLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    switchView('home');
+                });
+             }
+
+            // Mobile Menu Toggle
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('open');
             });
-            
-            // --- Reveal on Scroll Logic ---
+
+            // Scroll Reveal Animation
             const revealElements = document.querySelectorAll('.reveal');
             const revealObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        entry.target.classList.add('revealed');
+                        entry.target.classList.add('active');
                         revealObserver.unobserve(entry.target);
                     }
                 });
             }, { threshold: 0.1 });
+
             revealElements.forEach(el => revealObserver.observe(el));
-            
-            // Initial Page Load
-            showPage('main-page');
+
+            // Default View
+            switchView('home');
         });
     </script>
 </body>
